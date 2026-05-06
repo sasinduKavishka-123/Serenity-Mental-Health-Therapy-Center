@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="640.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.serenitymentalhealththerapycenter.controller.PatientController">
+   <children>
+      <Text layoutX="253.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Management">
+         <font>
+            <Font name="Candara Bold" size="48.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>
