@@ -12,14 +12,31 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="450.0" prefWidth="700.0" style="-fx-background-color: #007eff;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.serenitymentalhealththerapycenter.controller.LoginController">
+<AnchorPane prefHeight="450.0" prefWidth="700.0" style="-fx-background-color: #0D6071;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.serenitymentalhealththerapycenter.controller.LoginController">
    <children>
-      <Pane layoutX="-25.0" prefHeight="455.0" prefWidth="344.0" style="-fx-background-color: #ffffff; -fx-background-radius: 12;">
+      <Pane layoutX="-25.0" prefHeight="455.0" prefWidth="344.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 12;">
          <effect>
             <DropShadow blurType="GAUSSIAN" height="0.0" radius="8.25" width="35.0" />
          </effect>
+         <children>
+            <ImageView fitHeight="300.0" fitWidth="300.0" layoutX="30.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../images/serenatyLogo.jpeg" />
+               </image>
+            </ImageView>
+            <Text layoutX="90.0" layoutY="327.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Serenity" textAlignment="CENTER">
+               <font>
+                  <Font name="Book Antiqua" size="56.0" />
+               </font>
+            </Text>
+            <Text layoutX="90.0" layoutY="349.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mental Health Center" textAlignment="CENTER">
+               <font>
+                  <Font name="Arial" size="18.0" />
+               </font>
+            </Text>
+         </children>
       </Pane>
-      <Pane layoutX="366.0" layoutY="28.0" prefHeight="396.0" prefWidth="298.0" style="-fx-background-color: #ffffff; -fx-background-radius: 12;">
+      <Pane layoutX="366.0" layoutY="28.0" prefHeight="396.0" prefWidth="298.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 12;">
          <children>
             <ImageView fitHeight="96.0" fitWidth="96.0" layoutX="98.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -47,14 +64,14 @@
                   <Font size="14.0" />
                </font>
             </Text>
-            <Button ellipsisString="" layoutX="93.0" layoutY="344.0" mnemonicParsing="false" onAction="#login" prefHeight="24.0" prefWidth="105.0" style="-fx-background-color: #007eff; -fx-background-radius: 5;" text="Button" textFill="WHITE">
+            <Button ellipsisString="" layoutX="93.0" layoutY="344.0" mnemonicParsing="false" onAction="#login" prefHeight="24.0" prefWidth="105.0" style="-fx-background-color: #058399; -fx-background-radius: 5;" text="Button">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
                <effect>
-                  <DropShadow height="8.0" offsetY="2.0" radius="1.5" width="0.0">
+                  <DropShadow height="1.0" offsetY="2.0" radius="0.0" width="0.0">
                      <color>
-                        <Color green="0.04137061536312103" blue="1.0" />
+                        <Color red="0.046315789222717285" green="0.3936842083930969" blue="0.46315789222717285" />
                      </color>
                   </DropShadow>
                </effect>
