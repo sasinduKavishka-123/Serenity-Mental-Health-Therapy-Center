@@ -25,7 +25,7 @@
                         <Font name="Candara Bold" size="48.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="p_id_field" layoutX="225.0" layoutY="113.0" prefHeight="30.0" prefWidth="250.0" style="-fx-border-color: #848484; -fx-border-radius: 3;" />
+                  <TextField fx:id="p_id_field" editable="false" layoutX="225.0" layoutY="113.0" prefHeight="30.0" prefWidth="250.0" style="-fx-border-color: #848484; -fx-border-radius: 3;" />
                   <Text layoutX="225.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient ID">
                      <font>
                         <Font name="Arial" size="16.0" />
@@ -79,14 +79,14 @@
                         </Button>
                     </buttons>
                   </ButtonBar>
-                  <TableView layoutX="93.0" layoutY="479.0" prefHeight="226.0" prefWidth="750.0">
+                  <TableView fx:id="patient_table" layoutX="93.0" layoutY="479.0" onMouseClicked="#getPatientTableData" prefHeight="226.0" prefWidth="750.0">
                     <columns>
-                      <TableColumn prefWidth="64.0" text="ID" />
-                      <TableColumn prefWidth="162.4000244140625" text="Name" />
-                        <TableColumn prefWidth="66.4000244140625" text="Gender" />
-                        <TableColumn prefWidth="95.99993896484375" text="Contact" />
-                        <TableColumn prefWidth="126.39996337890625" text="Registered Date" />
-                        <TableColumn prefWidth="232.00006103515625" text="Address" />
+                      <TableColumn fx:id="col_p_id" prefWidth="64.0" text="ID" />
+                      <TableColumn fx:id="col_p_name" prefWidth="162.4000244140625" text="Name" />
+                        <TableColumn fx:id="col_p_gender" prefWidth="66.4000244140625" text="Gender" />
+                        <TableColumn fx:id="col_p_contact" prefWidth="95.99993896484375" text="Contact" />
+                        <TableColumn fx:id="col_p_reg_date" prefWidth="126.39996337890625" text="Registered Date" />
+                        <TableColumn fx:id="col_p_address" prefWidth="230.39996337890625" text="Address" />
                     </columns>
                   </TableView>
                </children>

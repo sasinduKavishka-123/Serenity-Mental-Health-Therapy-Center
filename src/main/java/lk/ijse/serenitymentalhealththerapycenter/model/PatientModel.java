@@ -5,6 +5,8 @@ import lk.ijse.serenitymentalhealththerapycenter.entity.Patient;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.util.List;
+
 public class PatientModel {
 
     public boolean savePatient(Patient patient){
@@ -21,6 +23,13 @@ public class PatientModel {
         }finally {
             session.close();
         }
+    }
+
+    public List<Patient> getAllCustomers() throws Exception{
+        Session session = FactoryConfiguration.getInstance().getSession();
+        List<Patient> patients = session.createQuery("from Patient ", Patient.class).list();
+
+        return patients;
     }
 
 }
