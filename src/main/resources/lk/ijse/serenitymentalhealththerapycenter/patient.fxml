@@ -48,7 +48,7 @@
                         <Font name="Arial" size="16.0" />
                      </font>
                   </Text>
-                  <ComboBox fx:id="p_gender_box" layoutX="534.0" layoutY="239.0" prefHeight="30.0" prefWidth="190.0" promptText="Select a gender" style="-fx-border-color: #848484; -fx-background-color: none; -fx-border-radius: 3;" />
+                  <ComboBox fx:id="p_gender_box" layoutX="534.0" layoutY="239.0" prefHeight="30.0" prefWidth="190.0" promptText="Select a gender" style="-fx-border-color: #848484; -fx-background-color: none; -fx-border-radius: 3;" visibleRowCount="4" />
                   <Text layoutX="225.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Address">
                      <font>
                         <Font name="Arial" size="16.0" />
@@ -57,7 +57,7 @@
                   <TextArea fx:id="p_address_field" layoutX="225.0" layoutY="306.0" prefHeight="80.0" prefWidth="500.0" style="-fx-border-color: #848484; -fx-border-radius: 3;" />
                   <ButtonBar layoutX="371.0" layoutY="402.0" prefHeight="40.0" prefWidth="146.0">
                     <buttons>
-                      <Button mnemonicParsing="false" style="-fx-background-color: #00cc00;" text="Save">
+                      <Button mnemonicParsing="false" onAction="#savePatient" style="-fx-background-color: #00cc00;" text="Save">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>

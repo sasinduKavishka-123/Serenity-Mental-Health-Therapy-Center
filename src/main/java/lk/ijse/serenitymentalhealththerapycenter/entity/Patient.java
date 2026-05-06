@@ -4,8 +4,6 @@ package lk.ijse.serenitymentalhealththerapycenter.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Date;
-
 // hibernate ////////////////
 @Entity
 @Table(name= "patient")
@@ -25,5 +23,5 @@ public class Patient {
     private String gender;
     private String contact;
     private String address;
-    private Date registeredDay;
+    private String registeredDay;
 }

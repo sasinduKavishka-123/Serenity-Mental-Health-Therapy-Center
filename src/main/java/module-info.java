@@ -1,6 +1,9 @@
 module lk.ijse.serenitymentalhealththerapycenter {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.sql;
+    requires java.base;
+    requires mysql.connector.j;
 
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
@@ -15,6 +18,8 @@ module lk.ijse.serenitymentalhealththerapycenter {
     requires static lombok;
 
     opens lk.ijse.serenitymentalhealththerapycenter.controller to javafx.fxml;
+//    opens lk.ijse.serenitymentalhealththerapycenter.entity to javafx.base;
+    opens lk.ijse.serenitymentalhealththerapycenter.entity to org.hibernate.orm.core;
 
     exports lk.ijse.serenitymentalhealththerapycenter;
 }
