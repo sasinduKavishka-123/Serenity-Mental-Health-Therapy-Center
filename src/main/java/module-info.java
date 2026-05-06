@@ -17,6 +17,7 @@ module lk.ijse.serenitymentalhealththerapycenter {
     // for lombok
     requires static lombok;
 
+
     opens lk.ijse.serenitymentalhealththerapycenter.controller to javafx.fxml;
 //    opens lk.ijse.serenitymentalhealththerapycenter.entity to javafx.base;
     opens lk.ijse.serenitymentalhealththerapycenter.entity to org.hibernate.orm.core;

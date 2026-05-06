@@ -5,11 +5,14 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import lk.ijse.serenitymentalhealththerapycenter.config.FactoryConfiguration;
 import lk.ijse.serenitymentalhealththerapycenter.entity.Patient;
+import lk.ijse.serenitymentalhealththerapycenter.model.PatientModel;
+import lk.ijse.serenitymentalhealththerapycenter.util.Alerts;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -26,6 +29,14 @@ public class PatientController implements Initializable {
     @FXML private TextArea p_address_field;
     @FXML private ComboBox<String> p_gender_box;
 
+
+    private final String PATIENT_NAME_REGEX    = "^[A-Za-z\\s]{3,}$";
+    private final String PATIENT_CONTACT_REGEX = "^[0-9]{10}$";
+    private final String PATIENT_ADDRESS_REGEX = "^.{4,}$";
+
+    private final Alerts alert = new Alerts("Patient Management.");
+    private final PatientModel patientModel = new PatientModel();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ObservableList<String> genders = FXCollections.observableArrayList("Male", "Female", "Other");
@@ -33,28 +44,43 @@ public class PatientController implements Initializable {
     }
 
     @FXML
-    private void savePatient(){
-        int id = Integer.parseInt(p_id_field.getText());
-        String name = p_name_field.getText();
-        String contact = p_contact_field.getText();
-        String address = p_address_field.getText();
-        String gender = p_gender_box.getValue();
-        String date = String.valueOf(LocalDate.now());
+    private void handelSavePatient(){
+//        int id = Integer.parseInt(p_id_field.getText());
+        String name     = p_name_field.getText();
+        String contact  = p_contact_field.getText();
+        String address  = p_address_field.getText();
+        String gender   = p_gender_box.getValue();
+        String date     = String.valueOf(LocalDate.now());
 
-        Patient p = new Patient(id, name, gender, contact, address, date);
+        if(!name.matches(PATIENT_NAME_REGEX)){
+            alert.getErrorAlert("Invalid Name!").show();
+        } else if(!contact.matches(PATIENT_CONTACT_REGEX)){
+            alert.getErrorAlert("Invalid Contact Number!").show();
+        }else if(!address.matches(PATIENT_ADDRESS_REGEX)){
+            alert.getErrorAlert("Invalid Address!").show();
+        }else if(gender == null){
+            alert.getErrorAlert("Select a Gender!").show();
+        }else{
 
-        Session session = FactoryConfiguration.getInstance().getSession();
-        Transaction transaction = session.beginTransaction();
+            Patient patient = new Patient(0, name, gender, contact, address, date);
 
-        try{
-            session.save(p);
-        } catch (Exception e) {
-            transaction.rollback();
-            throw new RuntimeException(e);
-        }finally {
-            session.close();
+            boolean isSaved = patientModel.savePatient(patient);
+
+            if(isSaved){
+                alert.getSuccessAlert("Patient Saved Successfully!").show();
+                clearFields();
+            }else {
+                alert.getErrorAlert("Something Went Wrong!").show();
+            }
         }
 
+    }
+
+    private void clearFields(){
+        p_name_field.setText("");
+        p_contact_field.setText("");
+        p_address_field.setText("");
+        p_gender_box.setValue("");
     }
 
 }

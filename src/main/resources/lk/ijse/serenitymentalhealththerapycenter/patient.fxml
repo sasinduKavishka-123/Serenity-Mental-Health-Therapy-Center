@@ -57,7 +57,7 @@
                   <TextArea fx:id="p_address_field" layoutX="225.0" layoutY="306.0" prefHeight="80.0" prefWidth="500.0" style="-fx-border-color: #848484; -fx-border-radius: 3;" />
                   <ButtonBar layoutX="371.0" layoutY="402.0" prefHeight="40.0" prefWidth="146.0">
                     <buttons>
-                      <Button mnemonicParsing="false" onAction="#savePatient" style="-fx-background-color: #00cc00;" text="Save">
+                      <Button mnemonicParsing="false" onAction="#handelSavePatient" style="-fx-background-color: #00cc00;" text="Save">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
