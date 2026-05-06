@@ -63,14 +63,29 @@ public class PatientController implements Initializable {
     }
 
     @FXML
+    private void loadPatients(){
+        try{
+            List<Patient> patients = patientModel.getAllCustomers();
+            ObservableList<Patient> obList = FXCollections.observableArrayList();
+            obList.addAll(patients);
+            patient_table.setItems(obList);
+        }catch (Exception e){
+            e.printStackTrace();
+            alert.getErrorAlert("Something Went Wrong!").show();
+        }
+
+    }
+
+    @FXML
     private void handelSavePatient(){
-//        int id = Integer.parseInt(p_id_field.getText());
+
         String name     = p_name_field.getText();
         String contact  = p_contact_field.getText();
         String address  = p_address_field.getText();
         String gender   = p_gender_box.getValue();
         String date     = String.valueOf(LocalDate.now());
 
+        // data validation
         if(!name.matches(PATIENT_NAME_REGEX)){
             alert.getErrorAlert("Invalid Name!").show();
         } else if(!contact.matches(PATIENT_CONTACT_REGEX)){
@@ -79,12 +94,21 @@ public class PatientController implements Initializable {
             alert.getErrorAlert("Invalid Address!").show();
         }else if(gender == null){
             alert.getErrorAlert("Select a Gender!").show();
-        }else{
+        }
+        else{
+            // check if is there duplicate values
+            int duplicateVal = checkDataIsDuplicate(name, contact);
+            if(duplicateVal == 0){
+                alert.getErrorAlert("Patient name is already exist!").show();
+                return;
+            }
+            else if(duplicateVal == 1){
+                alert.getErrorAlert("Patient contact is already exist!").show();
+                return;
+            }
 
             Patient patient = new Patient(0, name, gender, contact, address, date);
-
             boolean isSaved = patientModel.savePatient(patient);
-
             if(isSaved){
                 alert.getSuccessAlert("Patient Saved Successfully!").show();
                 clearFields();
@@ -95,21 +119,8 @@ public class PatientController implements Initializable {
 
     }
 
-    @FXML
-    private void loadPatients(){
-        try{
-            List<Patient> patients = patientModel.getAllCustomers();
-            ObservableList<Patient> obList = FXCollections.observableArrayList();
-            for(Patient p : patients){
-                obList.add(p);
-            }
-            patient_table.setItems(obList);
-        }catch (Exception e){
-            e.printStackTrace();
-            alert.getErrorAlert("Something Went Wrong!").show();
-        }
-
-
+    private int checkDataIsDuplicate(String name, String contact){
+        return patientModel.checkDuplicateData(name, contact);
     }
 
     @FXML
@@ -124,7 +135,6 @@ public class PatientController implements Initializable {
             p_address_field.setText(patient.getAddress());
             p_gender_box.setValue(patient.getGender());
         }
-
     }
 
     private void clearFields(){
