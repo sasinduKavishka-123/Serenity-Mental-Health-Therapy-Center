@@ -65,6 +65,7 @@ public class PatientController implements Initializable {
         loadPatients();
     }
 
+    // load patient data to table ---------------------------
     @FXML
     private void loadPatients(){
         try{
@@ -79,6 +80,7 @@ public class PatientController implements Initializable {
 
     }
 
+    // Save patient ---------------------------
     @FXML
     private void handelSavePatient(){
 
@@ -100,7 +102,7 @@ public class PatientController implements Initializable {
         }
         else{
             // check if is there duplicate values
-            int duplicateVal = checkDataIsDuplicate(name, contact);
+            int duplicateVal = checkDataIsDuplicate(0, name, contact, "s");
             if(duplicateVal == 0){
                 alert.getErrorAlert("Patient name is already exist!").show();
                 return;
@@ -122,19 +124,63 @@ public class PatientController implements Initializable {
         }
     }
 
+
+    // Update patient ---------------------------
     @FXML
     public void handelUpdatePatient(){
 
+        String id       = p_id_field.getText();
+        String name     = p_name_field.getText();
+        String contact  = p_contact_field.getText();
+        String address  = p_address_field.getText();
+        String gender   = p_gender_box.getValue();
+        String date     = String.valueOf(LocalDate.now());
+
+        // data validation
+        if(!name.matches(PATIENT_NAME_REGEX)){
+            alert.getErrorAlert("Invalid Name!").show();
+        } else if(!contact.matches(PATIENT_CONTACT_REGEX)){
+            alert.getErrorAlert("Invalid Contact Number!").show();
+        }else if(!address.matches(PATIENT_ADDRESS_REGEX)){
+            alert.getErrorAlert("Invalid Address!").show();
+        }else if(gender == null){
+            alert.getErrorAlert("Select a Gender!").show();
+        }
+        else{
+            // check if is there duplicate values
+            int p_id = Integer.parseInt(id.substring(2));
+            int duplicateVal = checkDataIsDuplicate(p_id, name, contact, "u");
+            if(duplicateVal == 0){
+                alert.getErrorAlert("Patient name is already exist!").show();
+                return;
+            }
+            else if(duplicateVal == 1){
+                alert.getErrorAlert("Patient contact is already exist!").show();
+                return;
+            }
+
+            // update patient data
+            PatientDTO patient = new PatientDTO(p_id+"", name, gender, contact, address, date);
+            boolean isUpdated = patientBO.updatePatient(patient);
+            if(isUpdated){
+                alert.getSuccessAlert("Patient Updated Successfully!").show();
+                clearFields();
+            }else {
+                alert.getErrorAlert("Something Went Wrong!").show();
+            }
+        }
     }
 
+
+    // Delete patient ---------------------------
     @FXML
     public void handelDeletePatient(){
 
     }
 
-    // check if is there duplicate values return 0=> name , 1=> contact -1=> no duplicate
-    private int checkDataIsDuplicate(String name, String contact){
-        return patientBO.checkDuplicateData(name, contact);
+    // check if is there duplicate values return 0=> name , 1=> contact -1=> no duplicate   type=> save->s update->u
+    private int checkDataIsDuplicate(int id, String name, String contact, String type){
+        return patientBO.checkDuplicateData(id, name, contact, type);
     }
 
     // load table data to the fields
@@ -152,11 +198,15 @@ public class PatientController implements Initializable {
         }
     }
 
+
+    // Get next patient id ---------------------------
     void getNextPID(){
         String nextId = patientBO.getNextID();
         p_id_field.setText(nextId);
     }
 
+
+    // Clear patient form ---------------------------
     @FXML
     private void clearFields() {
         p_name_field.setText("");

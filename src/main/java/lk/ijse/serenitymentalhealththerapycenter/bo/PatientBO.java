@@ -7,7 +7,8 @@ import java.util.List;
 public interface PatientBO extends SuperBO {
 
     boolean savePatient(PatientDTO p);
+    boolean updatePatient(PatientDTO p);
     List<PatientDTO> getAllPatients();
-    int checkDuplicateData(String name, String contact);
+    int checkDuplicateData(int id, String name, String contact, String type);
     String getNextID();
 }

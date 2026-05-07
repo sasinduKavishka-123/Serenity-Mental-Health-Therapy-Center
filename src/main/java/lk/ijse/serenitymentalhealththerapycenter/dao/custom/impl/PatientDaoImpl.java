@@ -29,6 +29,31 @@ public class PatientDaoImpl implements PatientDao {
     }
 
     @Override
+    public boolean update(Patient patient) {
+        Session session = FactoryConfiguration.getInstance().getSession();
+
+        try{
+            Transaction transaction = session.beginTransaction();
+
+            Patient oldPatient = session.get(Patient.class, patient.getId());
+
+            oldPatient.setName(patient.getName());
+            oldPatient.setGender(patient.getGender());
+            oldPatient.setContact(patient.getContact());
+            oldPatient.setAddress(patient.getAddress());
+            oldPatient.setRegisteredDay(patient.getRegisteredDay());
+
+            //session.update(String.valueOf(id), customer);
+            transaction.commit();
+            return true;
+        }catch(Exception e){
+            return false;
+        }finally{
+            session.close();
+        }
+    }
+
+    @Override
     public List<Patient> getAll() {
         Session session = FactoryConfiguration.getInstance().getSession();
         List<Patient> patients = session.createQuery("from Patient ", Patient.class).list();
@@ -37,16 +62,29 @@ public class PatientDaoImpl implements PatientDao {
     }
 
     @Override
-    public int checkDuplicateData(String p_name, String p_contact) {
+    public int checkDuplicateData(int p_id, String p_name, String p_contact, String type) {
         Session session = FactoryConfiguration.getInstance().getSession();
-        Query<Patient> patientQuery = session.createQuery("from Patient where name='" + p_name + "'", Patient.class);
+        List<Patient> patientQuery = session.createQuery("from Patient where name='" + p_name + "'", Patient.class).list();
 
         if(patientQuery.stream().findAny().isPresent()){
-            return 0;
+            if((patientQuery.size() == 1) && type.equals("u")){
+                if(!(patientQuery.getFirst().getId() == p_id)){
+                    return 0;
+                }
+            }else{
+                return 0;
+            }
         }
-        patientQuery = session.createQuery("from Patient where contact='" + p_contact + "'", Patient.class);
+
+        patientQuery = session.createQuery("from Patient where contact='" + p_contact + "'", Patient.class).list();
         if(patientQuery.stream().findAny().isPresent()){
-            return 1;
+            if((patientQuery.size() == 1) && type.equals("u")){
+                if(!(patientQuery.getFirst().getId() == p_id)){
+                    return 1;
+                }
+            }else{
+                return 1;
+            }
         }
         session.close();
         return -1;

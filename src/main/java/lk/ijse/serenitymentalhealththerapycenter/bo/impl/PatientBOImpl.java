@@ -20,6 +20,12 @@ public class PatientBOImpl implements PatientBO {
     }
 
     @Override
+    public boolean updatePatient(PatientDTO p) {
+        Patient patient = new Patient(Integer.parseInt(p.getId()), p.getName(), p.getGender(), p.getContact(), p.getAddress(), p.getRegisteredDay());
+        return patientDao.update(patient);
+    }
+
+    @Override
     public List<PatientDTO> getAllPatients() {
         List<Patient> pList = patientDao.getAll();
         List<PatientDTO> patientDTOS = new ArrayList<>();
@@ -30,8 +36,8 @@ public class PatientBOImpl implements PatientBO {
     }
 
     @Override
-    public int checkDuplicateData(String name, String contact) {
-        return patientDao.checkDuplicateData(name, contact);
+    public int checkDuplicateData(int id, String name, String contact, String type) {
+        return patientDao.checkDuplicateData(id, name, contact, type);
     }
 
     @Override

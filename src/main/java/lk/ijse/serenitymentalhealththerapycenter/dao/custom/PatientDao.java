@@ -5,6 +5,6 @@ import lk.ijse.serenitymentalhealththerapycenter.entity.Patient;
 
 public interface PatientDao extends CrudDao<Patient> {
 
-    int checkDuplicateData(String name, String contact);
+    int checkDuplicateData(int id,String name, String contact, String type);
     String getNextID();
 }

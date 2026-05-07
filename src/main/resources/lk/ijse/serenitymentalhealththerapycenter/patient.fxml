@@ -61,7 +61,7 @@
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Button>
-                        <Button fx:id="handelUpdatePatient" layoutX="221.0" layoutY="17.0" mnemonicParsing="false" style="-fx-background-color: #ff8000;" text="Update">
+                        <Button layoutX="221.0" layoutY="17.0" mnemonicParsing="false" onAction="#handelUpdatePatient" style="-fx-background-color: #ff8000;" text="Update">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
