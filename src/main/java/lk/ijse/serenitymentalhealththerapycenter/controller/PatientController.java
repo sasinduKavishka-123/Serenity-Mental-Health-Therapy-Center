@@ -8,7 +8,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.serenitymentalhealththerapycenter.bo.BOFactory;
+import lk.ijse.serenitymentalhealththerapycenter.bo.PatientBO;
 import lk.ijse.serenitymentalhealththerapycenter.config.FactoryConfiguration;
+import lk.ijse.serenitymentalhealththerapycenter.dto.PatientDTO;
 import lk.ijse.serenitymentalhealththerapycenter.entity.Patient;
 import lk.ijse.serenitymentalhealththerapycenter.model.PatientModel;
 import lk.ijse.serenitymentalhealththerapycenter.util.Alerts;
@@ -29,13 +32,13 @@ public class PatientController implements Initializable {
     @FXML private TextArea p_address_field;
     @FXML private ComboBox<String> p_gender_box;
     // table ---------------------------------
-    @FXML private TableView<Patient> patient_table;
-    @FXML private TableColumn<Patient, String> col_p_address;
-    @FXML private TableColumn<Patient, String> col_p_contact;
-    @FXML private TableColumn<Patient, String> col_p_gender;
-    @FXML private TableColumn<Patient, String> col_p_id;
-    @FXML private TableColumn<Patient, String> col_p_name;
-    @FXML private TableColumn<Patient, String> col_p_reg_date;
+    @FXML private TableView<PatientDTO> patient_table;
+    @FXML private TableColumn<PatientDTO, String> col_p_address;
+    @FXML private TableColumn<PatientDTO, String> col_p_contact;
+    @FXML private TableColumn<PatientDTO, String> col_p_gender;
+    @FXML private TableColumn<PatientDTO, String> col_p_id;
+    @FXML private TableColumn<PatientDTO, String> col_p_name;
+    @FXML private TableColumn<PatientDTO, String> col_p_reg_date;
 
 
     private final String PATIENT_NAME_REGEX    = "^[A-Za-z\\s]{3,}$";
@@ -43,7 +46,7 @@ public class PatientController implements Initializable {
     private final String PATIENT_ADDRESS_REGEX = "^.{4,}$";
 
     private final Alerts alert = new Alerts("Patient Management.");
-    private final PatientModel patientModel = new PatientModel();
+    private final PatientBO patientBO = (PatientBO) BOFactory.getInstance().getBO(BOFactory.BOTypes.PATIENT);
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -65,8 +68,8 @@ public class PatientController implements Initializable {
     @FXML
     private void loadPatients(){
         try{
-            List<Patient> patients = patientModel.getAllCustomers();
-            ObservableList<Patient> obList = FXCollections.observableArrayList();
+            List<PatientDTO> patients = patientBO.getAllPatients();
+            ObservableList<PatientDTO> obList = FXCollections.observableArrayList();
             obList.addAll(patients);
             patient_table.setItems(obList);
         }catch (Exception e){
@@ -107,8 +110,9 @@ public class PatientController implements Initializable {
                 return;
             }
 
-            Patient patient = new Patient(0, name, gender, contact, address, date);
-            boolean isSaved = patientModel.savePatient(patient);
+            // save patient data
+            PatientDTO patient = new PatientDTO("0", name, gender, contact, address, date);
+            boolean isSaved = patientBO.savePatient(patient);
             if(isSaved){
                 alert.getSuccessAlert("Patient Saved Successfully!").show();
                 clearFields();
@@ -116,20 +120,31 @@ public class PatientController implements Initializable {
                 alert.getErrorAlert("Something Went Wrong!").show();
             }
         }
-
-    }
-
-    private int checkDataIsDuplicate(String name, String contact){
-        return patientModel.checkDuplicateData(name, contact);
     }
 
     @FXML
+    public void handelUpdatePatient(){
+
+    }
+
+    @FXML
+    public void handelDeletePatient(){
+
+    }
+
+    // check if is there duplicate values return 0=> name , 1=> contact -1=> no duplicate
+    private int checkDataIsDuplicate(String name, String contact){
+        return patientBO.checkDuplicateData(name, contact);
+    }
+
+    // load table data to the fields
+    @FXML
     public void getPatientTableData(){
-        TableView.TableViewSelectionModel<Patient> selectedCustomer = patient_table.getSelectionModel();
-        Patient patient = selectedCustomer.getSelectedItem();
+        TableView.TableViewSelectionModel<PatientDTO> selectedCustomer = patient_table.getSelectionModel();
+        PatientDTO patient = selectedCustomer.getSelectedItem();
 
         if(patient != null){
-            p_id_field.setText("" + patient.getId());
+            p_id_field.setText(patient.getId());
             p_name_field.setText(patient.getName());
             p_contact_field.setText(patient.getContact());
             p_address_field.setText(patient.getAddress());
@@ -137,12 +152,19 @@ public class PatientController implements Initializable {
         }
     }
 
-    private void clearFields(){
+    void getNextPID(){
+        String nextId = patientBO.getNextID();
+        p_id_field.setText(nextId);
+    }
+
+    @FXML
+    private void clearFields() {
         p_name_field.setText("");
         p_contact_field.setText("");
         p_address_field.setText("");
-        p_gender_box.setValue("");
+        p_gender_box.setPromptText("Select a gender");
         loadPatients();
+        getNextPID();
     }
 
 }

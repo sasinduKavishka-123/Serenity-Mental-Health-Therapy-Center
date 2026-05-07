@@ -13,7 +13,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane prefHeight="640.0" prefWidth="950.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.serenitymentalhealththerapycenter.controller.PatientController">
    <children>
       <ScrollPane prefHeight="640.0" prefWidth="950.0" style="-fx-background-color: #ffffff;">
@@ -62,17 +61,17 @@
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Button>
-                        <Button layoutX="221.0" layoutY="17.0" mnemonicParsing="false" style="-fx-background-color: #ff8000;" text="Update">
+                        <Button fx:id="handelUpdatePatient" layoutX="221.0" layoutY="17.0" mnemonicParsing="false" style="-fx-background-color: #ff8000;" text="Update">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Button>
-                        <Button layoutX="221.0" layoutY="17.0" mnemonicParsing="false" style="-fx-background-color: #ff1a1a;" text="Delete">
+                        <Button fx:id="handelDeletePatient" layoutX="221.0" layoutY="17.0" mnemonicParsing="false" style="-fx-background-color: #ff1a1a;" text="Delete">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Button>
-                        <Button layoutX="221.0" layoutY="17.0" mnemonicParsing="false" prefWidth="134.0" style="-fx-background-color: #b800e6;" text="Reset">
+                        <Button layoutX="221.0" layoutY="17.0" mnemonicParsing="false" onAction="#clearFields" prefWidth="134.0" style="-fx-background-color: #b800e6;" text="Reset">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
@@ -86,7 +85,7 @@
                         <TableColumn fx:id="col_p_gender" prefWidth="66.4000244140625" text="Gender" />
                         <TableColumn fx:id="col_p_contact" prefWidth="95.99993896484375" text="Contact" />
                         <TableColumn fx:id="col_p_reg_date" prefWidth="126.39996337890625" text="Registered Date" />
-                        <TableColumn fx:id="col_p_address" prefWidth="230.39996337890625" text="Address" />
+                        <TableColumn fx:id="col_p_address" prefWidth="228.79986572265625" text="Address" />
                     </columns>
                   </TableView>
                </children>
