@@ -24,13 +24,15 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class PatientController implements Initializable {
+public class PatientController {
 
     @FXML private TextField p_id_field;
     @FXML private TextField p_name_field;
     @FXML private TextField p_contact_field;
     @FXML private TextArea p_address_field;
     @FXML private ComboBox<String> p_gender_box;
+    @FXML private TextField p_search_field;
+    @FXML private Label p_search_text;
     // table ---------------------------------
     @FXML private TableView<PatientDTO> patient_table;
     @FXML private TableColumn<PatientDTO, String> col_p_address;
@@ -48,8 +50,8 @@ public class PatientController implements Initializable {
     private final Alerts alert = new Alerts("Patient Management.");
     private final PatientBO patientBO = (PatientBO) BOFactory.getInstance().getBO(BOFactory.BOTypes.PATIENT);
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    public void initialize() {
         // initialize combo box
         ObservableList<String> genders = FXCollections.observableArrayList("Male", "Female", "Other");
         p_gender_box.setItems(genders);
@@ -63,6 +65,9 @@ public class PatientController implements Initializable {
         col_p_address.setCellValueFactory(new PropertyValueFactory<>("address"));
 
         loadPatients();
+        getNextPID();
+
+        p_search_text.setVisible(false);
     }
 
     // load patient data to table ---------------------------
@@ -175,7 +180,21 @@ public class PatientController implements Initializable {
     // Delete patient ---------------------------
     @FXML
     public void handelDeletePatient(){
+        String id = p_id_field.getText();
 
+        if(id.isEmpty()){
+            alert.getErrorAlert("Please Select a Patient").show();
+            return;
+        }
+
+        int p_id = Integer.parseInt(id.substring(2));
+        boolean isDeleted = patientBO.deletePatient(p_id);
+        if(isDeleted){
+            alert.getSuccessAlert("Patient Deleted Successfully!").show();
+            clearFields();
+        }else {
+            alert.getErrorAlert("Something Went Wrong!").show();
+        }
     }
 
     // check if is there duplicate values return 0=> name , 1=> contact -1=> no duplicate   type=> save->s update->u
@@ -212,9 +231,37 @@ public class PatientController implements Initializable {
         p_name_field.setText("");
         p_contact_field.setText("");
         p_address_field.setText("");
+        p_gender_box.setValue("");
         p_gender_box.setPromptText("Select a gender");
+        p_search_field.setText("");
         loadPatients();
         getNextPID();
+    }
+
+    // Search patient ---------------------------
+    @FXML
+    private void handelSearchPatient(){
+        String text = p_search_field.getText();
+        List<PatientDTO> patients = patientBO.searchPatient(text);
+
+        if(patients.isEmpty()){
+            alert.getInfoAlert("Patient Not Found!").show();
+            return;
+        }
+
+        ObservableList<PatientDTO> obList = FXCollections.observableArrayList();
+        obList.addAll(patients);
+        patient_table.setItems(obList);
+    }
+
+    @FXML
+    private void makeVisible(){
+        p_search_text.setVisible(true);
+    }
+
+    @FXML
+    private void makeNotVisible(){
+        p_search_text.setVisible(false);
     }
 
 }

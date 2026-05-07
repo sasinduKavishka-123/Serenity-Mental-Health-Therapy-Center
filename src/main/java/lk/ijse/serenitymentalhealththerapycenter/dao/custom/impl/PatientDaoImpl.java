@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PatientDaoImpl implements PatientDao {
@@ -51,6 +52,39 @@ public class PatientDaoImpl implements PatientDao {
         }finally{
             session.close();
         }
+    }
+
+    @Override
+    public boolean delete(int id) {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        try{
+            Transaction transaction = session.beginTransaction();
+            Patient patient = session.get(Patient.class, id);
+            session.delete(patient);
+            transaction.commit();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }finally{
+            session.close();
+        }
+    }
+
+    @Override
+    public List<Patient> search(String text) {
+        List<Patient> patients= new ArrayList<>();
+        Session session = FactoryConfiguration.getInstance().getSession();
+        String hql = "";
+        if(text.startsWith("P_")){
+            String p_id = text.substring(2);
+            hql = "FROM Patient WHERE id= " + p_id;
+            patients = session.createQuery(hql, Patient.class).list();
+        }
+        else {
+            hql = "FROM Patient WHERE name LIKE :name";
+            patients = session.createQuery(hql, Patient.class).setParameter("name", text+"%").list();
+        }
+        return patients;
     }
 
     @Override

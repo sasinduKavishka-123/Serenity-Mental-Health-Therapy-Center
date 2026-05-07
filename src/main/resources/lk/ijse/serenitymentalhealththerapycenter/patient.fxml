@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -19,6 +20,11 @@
          <content>
             <Pane prefHeight="722.0" prefWidth="935.0" style="-fx-background-color: #ffffff;">
                <children>
+                  <Label fx:id="p_search_text" layoutX="86.0" layoutY="434.0" prefHeight="28.0" prefWidth="169.0" text="Search Patient by ID or Name">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
                   <Text layoutX="259.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Management">
                      <font>
                         <Font name="Candara Bold" size="48.0" />
@@ -66,7 +72,7 @@
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Button>
-                        <Button fx:id="handelDeletePatient" layoutX="221.0" layoutY="17.0" mnemonicParsing="false" style="-fx-background-color: #ff1a1a;" text="Delete">
+                        <Button layoutX="221.0" layoutY="17.0" mnemonicParsing="false" onAction="#handelDeletePatient" style="-fx-background-color: #ff1a1a;" text="Delete">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
@@ -78,16 +84,22 @@
                         </Button>
                     </buttons>
                   </ButtonBar>
-                  <TableView fx:id="patient_table" layoutX="93.0" layoutY="479.0" onMouseClicked="#getPatientTableData" prefHeight="226.0" prefWidth="750.0">
+                  <TableView fx:id="patient_table" layoutX="93.0" layoutY="509.0" onMouseClicked="#getPatientTableData" prefHeight="226.0" prefWidth="750.0">
                     <columns>
                       <TableColumn fx:id="col_p_id" prefWidth="64.0" text="ID" />
                       <TableColumn fx:id="col_p_name" prefWidth="162.4000244140625" text="Name" />
                         <TableColumn fx:id="col_p_gender" prefWidth="66.4000244140625" text="Gender" />
                         <TableColumn fx:id="col_p_contact" prefWidth="95.99993896484375" text="Contact" />
                         <TableColumn fx:id="col_p_reg_date" prefWidth="126.39996337890625" text="Registered Date" />
-                        <TableColumn fx:id="col_p_address" prefWidth="228.79986572265625" text="Address" />
+                        <TableColumn fx:id="col_p_address" prefWidth="217.59991455078125" text="Address" />
                     </columns>
                   </TableView>
+                  <TextField fx:id="p_search_field" layoutX="93.0" layoutY="462.0" onMouseEntered="#makeVisible" onMouseExited="#makeNotVisible" prefHeight="30.0" prefWidth="155.0" style="-fx-border-color: #848484; -fx-border-radius: 3;" />
+                  <Button layoutX="260.0" layoutY="462.0" mnemonicParsing="false" onAction="#handelSearchPatient" prefHeight="20.0" prefWidth="75.0" style="-fx-background-color: #008aff;" text="Search">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
                </children>
             </Pane>
          </content>

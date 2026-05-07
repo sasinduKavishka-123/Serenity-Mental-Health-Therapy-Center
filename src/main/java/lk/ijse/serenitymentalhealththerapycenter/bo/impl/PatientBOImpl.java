@@ -26,6 +26,21 @@ public class PatientBOImpl implements PatientBO {
     }
 
     @Override
+    public boolean deletePatient(int id) {
+        return patientDao.delete(id);
+    }
+
+    @Override
+    public List<PatientDTO> searchPatient(String text) {
+        List<Patient> pList = patientDao.search(text);
+        List<PatientDTO> patientDTOS = new ArrayList<>();
+        for(Patient p : pList){
+            patientDTOS.add(new PatientDTO("P_" + p.getId(), p.getName(), p.getGender(), p.getContact(), p.getAddress(), p.getRegisteredDay()));
+        }
+        return patientDTOS;
+    }
+
+    @Override
     public List<PatientDTO> getAllPatients() {
         List<Patient> pList = patientDao.getAll();
         List<PatientDTO> patientDTOS = new ArrayList<>();
