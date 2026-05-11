@@ -2,6 +2,7 @@ package lk.ijse.serenitymentalhealththerapycenter.dao;
 
 import lk.ijse.serenitymentalhealththerapycenter.dao.custom.TherapistDao;
 import lk.ijse.serenitymentalhealththerapycenter.dao.custom.impl.PatientDaoImpl;
+import lk.ijse.serenitymentalhealththerapycenter.dao.custom.impl.ProgramDaoImpl;
 import lk.ijse.serenitymentalhealththerapycenter.dao.custom.impl.TherapistDaoImpl;
 
 public class DAOFactory {
@@ -19,14 +20,16 @@ public class DAOFactory {
 
     public enum DAOTypes{
         PATIENT,
-        THERAPIST
+        THERAPIST,
+        PROGRAM
     }
 
     public SuperDao getDao(DAOTypes daoTypes){
         switch (daoTypes){
-            case PATIENT: return new PatientDaoImpl();
-            case THERAPIST: return new TherapistDaoImpl();
-            default: return null;
+            case PATIENT    : return new PatientDaoImpl();
+            case THERAPIST  : return new TherapistDaoImpl();
+            case PROGRAM    : return new ProgramDaoImpl();
+            default         : return null;
         }
     }
 

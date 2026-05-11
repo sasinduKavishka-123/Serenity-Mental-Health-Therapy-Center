@@ -1,88 +1,113 @@
 package lk.ijse.serenitymentalhealththerapycenter.controller;
 
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import lk.ijse.serenitymentalhealththerapycenter.bo.BOFactory;
+import lk.ijse.serenitymentalhealththerapycenter.bo.ProgramBO;
+import lk.ijse.serenitymentalhealththerapycenter.bo.TherapistBo;
+import lk.ijse.serenitymentalhealththerapycenter.dto.TherapistDTO;
+import lk.ijse.serenitymentalhealththerapycenter.entity.Program;
+import lk.ijse.serenitymentalhealththerapycenter.util.Alerts;
+
+import java.util.List;
 
 public class ProgramController {
 
-    @FXML
-    private TableColumn<?, ?> col_pr_contact;
+    // table data ------------------
+    @FXML private TableView<Program> program_table;
+    @FXML private TableColumn<Program, String> col_pr_contact;
+    @FXML private TableColumn<Program, String> col_pr_gender;
+    @FXML private TableColumn<Program, String> col_pr_id;
+    @FXML private TableColumn<Program, String> col_pr_name;
 
-    @FXML
-    private TableColumn<?, ?> col_pr_gender;
+    // input fields Program------------------
+    @FXML private TextField pr_id_field;
+    @FXML private TextField pr_name_field;
+    @FXML private TextField pr_duration_field;
+    @FXML private TextField pr_fee_field;
+    @FXML private TextField pr_search_field;
+    @FXML private Label p_search_text;
 
-    @FXML
-    private TableColumn<?, ?> col_pr_id;
+    // input fields Therapist------------------
+    @FXML private ComboBox<String> pr_t_name_combo_box;
+    @FXML private TextField pr_t_id_field;
+    @FXML private TextField pr_t_contact_field;
+    @FXML private TextField pr_t_email_field;
 
-    @FXML
-    private TableColumn<?, ?> col_pr_name;
+    // Buttons------------------
+    @FXML Button pr_btn_save;
+    @FXML Button pr_btn_update;
+    @FXML Button pr_btn_delete;
 
-    @FXML
-    private Label p_search_text;
+    private final Alerts alert = new Alerts("Program Management.");
+    private final ProgramBO programBO = (ProgramBO) BOFactory.getInstance().getBO(BOFactory.BOTypes.PROGRAM);
+    private final TherapistBo therapistBo = (TherapistBo) BOFactory.getInstance().getBO(BOFactory.BOTypes.THERAPIST);
 
-    @FXML
-    private TextField pr_duration_field;
+    public void initialize(){
 
-    @FXML
-    private TextField pr_fee_field;
+        // initialize therapist combo box -------------
+        ObservableList<String> observableList = FXCollections.observableArrayList();
+        List<TherapistDTO> therapistDTOList = therapistBo.getAllTherapists();
+        for(TherapistDTO dto : therapistDTOList){
+            observableList.add(dto.getId() + " - " + dto.getName());
+        }
+        pr_t_name_combo_box.setItems(observableList);
 
-    @FXML
-    private TextField pr_id_field;
+        // initialize duration text field to input only numbers
+        pr_duration_field.setTextFormatter(new TextFormatter<>(change -> {
+            String newText = change.getControlNewText();
+            if(newText.matches("\\d*")){
+                return change;
+            }
+            else{
+                return null;
+            }
+        }));
 
-    @FXML
-    private TextField pr_name_field;
+        // initialize fee text field to input only price with two decimals
+        pr_fee_field.setTextFormatter(new TextFormatter<>(change -> {
+            String newText = change.getControlNewText();
+            if(newText.matches("\\d*(\\.\\d{0,2})?")){
+                return change;
+            }
+            else{
+                return null;
+            }
+        }));
 
-    @FXML
-    private TextField pr_search_field;
+        p_search_text.setVisible(false);
+        pr_btn_update.setDisable(true);
+        pr_btn_delete.setDisable(true);
+    }
 
+    // initialize combo box to fill therapist data when therapist is selected
     @FXML
-    private TextField pr_t_contact_field;
-
-    @FXML
-    private TextField pr_t_email_field;
-
-    @FXML
-    private TextField pr_t_id_field;
-
-    @FXML
-    private ComboBox<?> pr_t_name_combo_box;
-
-    @FXML
-    private TableView<?> program_table;
+    void fillTherapistData(){
+        String text = pr_t_name_combo_box.getValue();
+        int end = text.indexOf("-") -1;
+        List<TherapistDTO> selectedTherapist = therapistBo.searchTherapists(text.substring(0, end));
+        pr_t_id_field.setText(selectedTherapist.getFirst().getId());
+        pr_t_contact_field.setText(selectedTherapist.getFirst().getContact());
+        pr_t_email_field.setText(selectedTherapist.getFirst().getEmail());
+    }
 
     @FXML
     void clearFields() {
-
-    }
-
-    @FXML
-    void getPatientTableData() {
-
-    }
-
-    @FXML
-    void handelDeleteProgram() {
-
-    }
-
-    @FXML
-    void handelLinkProgram() {
-
+        p_search_text.setVisible(false);
+        pr_btn_update.setDisable(true);
+        pr_btn_delete.setDisable(true);
     }
 
     @FXML
     void handelSaveProgram() {
+        String name     = pr_name_field.getText().trim();
+        String duration = pr_duration_field.getText().trim();
+        String fee      = pr_fee_field.getText().trim();
 
-    }
 
-    @FXML
-    void handelSearchProgram() {
-
-    }
-
-    @FXML
-    void handelUnlinkProgram() {
 
     }
 
@@ -92,13 +117,38 @@ public class ProgramController {
     }
 
     @FXML
-    void makeNotVisible() {
+    void handelDeleteProgram() {
 
     }
 
     @FXML
-    void makeVisible() {
+    void getPatientTableData() {
 
+    }
+
+    @FXML
+    void handelSearchProgram() {
+
+    }
+
+    @FXML
+    void handelLinkProgram() {
+
+    }
+
+    @FXML
+    void handelUnlinkProgram() {
+
+    }
+
+    @FXML
+    void makeNotVisible() {
+        p_search_text.setVisible(false);
+    }
+
+    @FXML
+    void makeVisible() {
+        p_search_text.setVisible(true);
     }
 
 }

@@ -78,9 +78,9 @@ public class TherapistController {
 
     @FXML
     void handelSaveTherapist() {
-        String name     = t_name_field.getText();
-        String contact  = t_contact_field.getText();
-        String email    = t_email_field.getText();
+        String name     = t_name_field.getText().trim();
+        String contact  = t_contact_field.getText().trim();
+        String email    = t_email_field.getText().trim();
 
         if(!name.matches(THERAPIST_NAME_REGEX)){
             alert.getErrorAlert("Invalid Name!").show();
@@ -127,10 +127,10 @@ public class TherapistController {
 
     @FXML
     void handelUpdateTherapist() {
-        String id       = t_id_field.getText();
-        String name     = t_name_field.getText();
-        String contact  = t_contact_field.getText();
-        String email    = t_email_field.getText();
+        String id       = t_id_field.getText().trim();
+        String name     = t_name_field.getText().trim();
+        String contact  = t_contact_field.getText().trim();
+        String email    = t_email_field.getText().trim();
 
         if(!name.matches(THERAPIST_NAME_REGEX)){
             alert.getErrorAlert("Invalid Name!").show();
@@ -168,7 +168,7 @@ public class TherapistController {
 
     @FXML
     void handelDeleteTherapist() {
-        String id = t_id_field.getText();
+        String id = t_id_field.getText().trim();
         if(id.isEmpty()){
             alert.getErrorAlert("Please Select a Therapist").show();
             return;
@@ -186,7 +186,7 @@ public class TherapistController {
 
     @FXML
     void handelSearchTherapist() {
-        String text = t_search_field.getText();
+        String text = t_search_field.getText().trim();
         List<TherapistDTO> therapists = therapistBo.searchTherapists(text);
 
         if(therapists.isEmpty()){

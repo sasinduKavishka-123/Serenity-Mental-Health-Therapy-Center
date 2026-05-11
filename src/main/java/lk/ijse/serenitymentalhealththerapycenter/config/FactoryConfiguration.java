@@ -1,6 +1,7 @@
 package lk.ijse.serenitymentalhealththerapycenter.config;
 
 import lk.ijse.serenitymentalhealththerapycenter.entity.Patient;
+import lk.ijse.serenitymentalhealththerapycenter.entity.Program;
 import lk.ijse.serenitymentalhealththerapycenter.entity.Therapist;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -19,7 +20,8 @@ public class FactoryConfiguration {
 
         configuration.configure("hibernate.cfg.xml")
                 .addAnnotatedClass(Patient.class)
-                .addAnnotatedClass(Therapist.class);
+                .addAnnotatedClass(Therapist.class)
+                .addAnnotatedClass(Program.class);
 
         sessionFactory = configuration.buildSessionFactory();
     }

@@ -4,7 +4,6 @@ import lk.ijse.serenitymentalhealththerapycenter.bo.TherapistBo;
 import lk.ijse.serenitymentalhealththerapycenter.dao.DAOFactory;
 import lk.ijse.serenitymentalhealththerapycenter.dao.custom.TherapistDao;
 import lk.ijse.serenitymentalhealththerapycenter.dto.TherapistDTO;
-import lk.ijse.serenitymentalhealththerapycenter.entity.Patient;
 import lk.ijse.serenitymentalhealththerapycenter.entity.Therapist;
 
 import java.util.ArrayList;
@@ -16,13 +15,13 @@ public class TherapistBOImpl implements TherapistBo {
 
     @Override
     public boolean saveTherapist(TherapistDTO t) {
-        Therapist therapist = new Therapist(0, t.getName(), t.getContact(), t.getEmail());
+        Therapist therapist = new Therapist(0, t.getName(), t.getContact(), t.getEmail(),null);
         return therapistDao.save(therapist);
     }
 
     @Override
     public boolean updateTherapist(TherapistDTO t) {
-        Therapist therapist = new Therapist(Integer.parseInt(t.getId()), t.getName(), t.getContact(), t.getEmail());
+        Therapist therapist = new Therapist(Integer.parseInt(t.getId()), t.getName(), t.getContact(), t.getEmail(), null);
         return therapistDao.update(therapist);
     }
 

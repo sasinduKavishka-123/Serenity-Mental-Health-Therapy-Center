@@ -1,28 +1,17 @@
 package lk.ijse.serenitymentalhealththerapycenter.controller;
 
-import jakarta.persistence.Table;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.serenitymentalhealththerapycenter.bo.BOFactory;
 import lk.ijse.serenitymentalhealththerapycenter.bo.PatientBO;
-import lk.ijse.serenitymentalhealththerapycenter.config.FactoryConfiguration;
 import lk.ijse.serenitymentalhealththerapycenter.dto.PatientDTO;
-import lk.ijse.serenitymentalhealththerapycenter.entity.Patient;
-import lk.ijse.serenitymentalhealththerapycenter.model.PatientModel;
 import lk.ijse.serenitymentalhealththerapycenter.util.Alerts;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
-import java.net.URL;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class PatientController {
 
@@ -96,10 +85,10 @@ public class PatientController {
     @FXML
     private void handelSavePatient(){
 
-        String name     = p_name_field.getText();
-        String contact  = p_contact_field.getText();
-        String address  = p_address_field.getText();
-        String gender   = p_gender_box.getValue();
+        String name     = p_name_field.getText().trim();
+        String contact  = p_contact_field.getText().trim();
+        String address  = p_address_field.getText().trim();
+        String gender   = p_gender_box.getValue().trim();
         String date     = String.valueOf(LocalDate.now());
 
         // data validation
@@ -141,11 +130,11 @@ public class PatientController {
     @FXML
     public void handelUpdatePatient(){
 
-        String id       = p_id_field.getText();
-        String name     = p_name_field.getText();
-        String contact  = p_contact_field.getText();
-        String address  = p_address_field.getText();
-        String gender   = p_gender_box.getValue();
+        String id       = p_id_field.getText().trim();
+        String name     = p_name_field.getText().trim();
+        String contact  = p_contact_field.getText().trim();
+        String address  = p_address_field.getText().trim();
+        String gender   = p_gender_box.getValue().trim();
         String date     = String.valueOf(LocalDate.now());
 
         // data validation
@@ -187,7 +176,7 @@ public class PatientController {
     // Delete patient ---------------------------
     @FXML
     public void handelDeletePatient(){
-        String id = p_id_field.getText();
+        String id = p_id_field.getText().trim();
 
         if(id.isEmpty()){
             alert.getErrorAlert("Please Select a Patient").show();
@@ -254,7 +243,7 @@ public class PatientController {
     // Search patient ---------------------------
     @FXML
     private void handelSearchPatient(){
-        String text = p_search_field.getText();
+        String text = p_search_field.getText().trim();
         List<PatientDTO> patients = patientBO.searchPatient(text);
 
         if(patients.isEmpty()){
