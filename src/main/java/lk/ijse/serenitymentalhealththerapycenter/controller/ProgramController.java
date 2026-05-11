@@ -5,23 +5,26 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.serenitymentalhealththerapycenter.bo.BOFactory;
 import lk.ijse.serenitymentalhealththerapycenter.bo.ProgramBO;
 import lk.ijse.serenitymentalhealththerapycenter.bo.TherapistBo;
+import lk.ijse.serenitymentalhealththerapycenter.dto.ProgramDTO;
 import lk.ijse.serenitymentalhealththerapycenter.dto.TherapistDTO;
 import lk.ijse.serenitymentalhealththerapycenter.entity.Program;
 import lk.ijse.serenitymentalhealththerapycenter.util.Alerts;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class ProgramController {
 
     // table data ------------------
-    @FXML private TableView<Program> program_table;
-    @FXML private TableColumn<Program, String> col_pr_contact;
-    @FXML private TableColumn<Program, String> col_pr_gender;
-    @FXML private TableColumn<Program, String> col_pr_id;
-    @FXML private TableColumn<Program, String> col_pr_name;
+    @FXML private TableView<ProgramDTO> program_table;
+    @FXML private TableColumn<ProgramDTO, String> col_pr_id;
+    @FXML private TableColumn<ProgramDTO, String> col_pr_name;
+    @FXML private TableColumn<ProgramDTO, String> col_pr_duration;
+    @FXML private TableColumn<ProgramDTO, String> col_pr_fee;
 
     // input fields Program------------------
     @FXML private TextField pr_id_field;
@@ -46,8 +49,8 @@ public class ProgramController {
     private final ProgramBO programBO = (ProgramBO) BOFactory.getInstance().getBO(BOFactory.BOTypes.PROGRAM);
     private final TherapistBo therapistBo = (TherapistBo) BOFactory.getInstance().getBO(BOFactory.BOTypes.THERAPIST);
 
-    public void initialize(){
 
+    public void initialize(){
         // initialize therapist combo box -------------
         ObservableList<String> observableList = FXCollections.observableArrayList();
         List<TherapistDTO> therapistDTOList = therapistBo.getAllTherapists();
@@ -78,15 +81,48 @@ public class ProgramController {
             }
         }));
 
+        // make buttons and combo box disable true and false
         p_search_text.setVisible(false);
         pr_btn_update.setDisable(true);
         pr_btn_delete.setDisable(true);
+        pr_t_name_combo_box.setDisable(true);
+
+        // initialize program table
+        col_pr_id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        col_pr_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        col_pr_duration.setCellValueFactory(new PropertyValueFactory<>("duration"));
+        col_pr_fee.setCellValueFactory(new PropertyValueFactory<>("fee"));
+
+        loadProgramTable();
+        getNextProgramID();
+    }
+
+    // get next program ID ----------------------
+    void getNextProgramID(){
+        String nextID = programBO.getNextID();
+        pr_id_field.setText(nextID);
+    }
+
+    // load programs table ----------------------------------
+    void loadProgramTable(){
+        try{
+            List<ProgramDTO> programs = programBO.getAllPrograms();
+            ObservableList<ProgramDTO> obList = FXCollections.observableArrayList();
+            obList.addAll(programs);
+            program_table.setItems(obList);
+        }catch (Exception e){
+            e.printStackTrace();
+            alert.getErrorAlert("Something Went Wrong!").show();
+        }
     }
 
     // initialize combo box to fill therapist data when therapist is selected
     @FXML
     void fillTherapistData(){
         String text = pr_t_name_combo_box.getValue();
+        if(text == null){
+            return;
+        }
         int end = text.indexOf("-") -1;
         List<TherapistDTO> selectedTherapist = therapistBo.searchTherapists(text.substring(0, end));
         pr_t_id_field.setText(selectedTherapist.getFirst().getId());
@@ -96,9 +132,21 @@ public class ProgramController {
 
     @FXML
     void clearFields() {
+        pr_name_field.setText("");
+        pr_duration_field.setText("");
+        pr_fee_field.setText("");
+        pr_search_field.setText("");
+        pr_t_name_combo_box.setValue(null);
+        pr_t_id_field.setText("");
+        pr_t_contact_field.setText("");
+        pr_t_email_field.setText("");
         p_search_text.setVisible(false);
         pr_btn_update.setDisable(true);
         pr_btn_delete.setDisable(true);
+        pr_btn_save.setDisable(false);
+        pr_t_name_combo_box.setDisable(true);
+        loadProgramTable();
+        getNextProgramID();
     }
 
     @FXML
@@ -107,28 +155,110 @@ public class ProgramController {
         String duration = pr_duration_field.getText().trim();
         String fee      = pr_fee_field.getText().trim();
 
+        if(name.isEmpty()){
+            alert.getErrorAlert("Invalid Name").show();
+        }
+        else if(duration.isEmpty()){
+            alert.getErrorAlert("Invalid duration").show();
+        }
+        else if (fee.isEmpty()) {
+            alert.getErrorAlert("Invalid Fee").show();
+        }
+        else{
+            BigDecimal pr_fee = BigDecimal.valueOf(Integer.parseInt(fee));
+            ProgramDTO programDTO = new ProgramDTO("0", name, duration, pr_fee);
+            boolean isSaved = programBO.saveProgram(programDTO);
 
-
+            if(isSaved){
+                alert.getSuccessAlert("Program Saved Successfully!").show();
+                clearFields();
+            }else{
+                alert.getSuccessAlert("Something Went Wrong!").show();
+            }
+        }
     }
 
     @FXML
     void handelUpdateProgram() {
+        String id       = pr_id_field.getText().trim();
+        String name     = pr_name_field.getText().trim();
+        String duration = pr_duration_field.getText().trim();
+        String fee      = pr_fee_field.getText().trim();
 
+        if(name.isEmpty()){
+            alert.getErrorAlert("Invalid Name").show();
+        }
+        else if(duration.isEmpty()){
+            alert.getErrorAlert("Invalid duration").show();
+        }
+        else if (fee.isEmpty()) {
+            alert.getErrorAlert("Invalid Fee").show();
+        }
+        else{
+            BigDecimal pr_fee = BigDecimal.valueOf(Double.parseDouble(fee));
+            ProgramDTO programDTO = new ProgramDTO(id.substring(3), name, duration, pr_fee);
+            boolean isUpdated = programBO.updateProgram(programDTO);
+
+            if(isUpdated){
+                alert.getSuccessAlert("Program Updated Successfully!").show();
+                clearFields();
+            }else{
+                alert.getSuccessAlert("Something Went Wrong!").show();
+            }
+        }
     }
 
     @FXML
     void handelDeleteProgram() {
+        String id = pr_id_field.getText().trim();
+        int pr_id = Integer.parseInt(id.substring(3));
+        boolean isDeleted = programBO.deleteProgram(pr_id);
 
+        if(isDeleted){
+            alert.getSuccessAlert("Program Deleted Successfully!").show();
+            clearFields();
+        }else{
+            alert.getSuccessAlert("Something Went Wrong!").show();
+        }
     }
 
     @FXML
     void getPatientTableData() {
+        TableView.TableViewSelectionModel<ProgramDTO> selectedProgram = program_table.getSelectionModel();
+        ProgramDTO program = selectedProgram.getSelectedItem();
+
+        if(program != null){
+            pr_id_field.setText(program.getId());
+            pr_name_field.setText(program.getName());
+            pr_duration_field.setText(program.getDuration());
+            pr_fee_field.setText(program.getFee()+"");
+
+            // make buttons disable false and true
+            pr_btn_save.setDisable(true);
+            pr_btn_update.setDisable(false);
+            pr_btn_delete.setDisable(false);
+            pr_t_name_combo_box.setDisable(false);
+        }
 
     }
 
     @FXML
     void handelSearchProgram() {
+        String text = pr_search_field.getText().trim();
 
+        if(text.isEmpty()){
+            alert.getInfoAlert("Enter ID or Name.").show();
+            return;
+        }
+
+        List<ProgramDTO> programs = programBO.searchProgram(text);
+        if(programs.isEmpty()){
+            alert.getInfoAlert("Program Not Found!").show();
+            return;
+        }
+        ObservableList<ProgramDTO> obList = FXCollections.observableArrayList();
+        obList.addAll(programs);
+        program_table.setItems(obList);
     }
 
     @FXML

@@ -1,7 +1,15 @@
 package lk.ijse.serenitymentalhealththerapycenter.bo;
 
+import lk.ijse.serenitymentalhealththerapycenter.dto.ProgramDTO;
+
+import java.util.List;
+
 public interface ProgramBO extends SuperBO{
 
-
-
+    boolean saveProgram(ProgramDTO p);
+    boolean updateProgram(ProgramDTO p);
+    boolean deleteProgram(int id);
+    List<ProgramDTO> searchProgram(String text);
+    List<ProgramDTO> getAllPrograms();
+    String getNextID();
 }

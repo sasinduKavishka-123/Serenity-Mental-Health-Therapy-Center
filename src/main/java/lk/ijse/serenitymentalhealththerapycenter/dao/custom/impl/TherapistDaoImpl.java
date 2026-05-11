@@ -2,8 +2,6 @@ package lk.ijse.serenitymentalhealththerapycenter.dao.custom.impl;
 
 import lk.ijse.serenitymentalhealththerapycenter.config.FactoryConfiguration;
 import lk.ijse.serenitymentalhealththerapycenter.dao.custom.TherapistDao;
-import lk.ijse.serenitymentalhealththerapycenter.dto.TherapistDTO;
-import lk.ijse.serenitymentalhealththerapycenter.entity.Patient;
 import lk.ijse.serenitymentalhealththerapycenter.entity.Therapist;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
