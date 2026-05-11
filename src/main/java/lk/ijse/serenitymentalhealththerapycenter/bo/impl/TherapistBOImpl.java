@@ -42,6 +42,16 @@ public class TherapistBOImpl implements TherapistBo {
     }
 
     @Override
+    public List<TherapistDTO> searchTherapists(String text) {
+        List<Therapist> therapists = therapistDao.search(text);
+        List<TherapistDTO> therapistDTOS = new ArrayList<>();
+        for(Therapist t : therapists){
+            therapistDTOS.add(new TherapistDTO("T_" + t.getId(), t.getName(), t.getContact(), t.getEmail()));
+        }
+        return  therapistDTOS;
+    }
+
+    @Override
     public int checkDuplicateData(int id, String name, String contact, String email, String type) {
         return therapistDao.checkDuplicateData(id, name, contact, email, type);
     }

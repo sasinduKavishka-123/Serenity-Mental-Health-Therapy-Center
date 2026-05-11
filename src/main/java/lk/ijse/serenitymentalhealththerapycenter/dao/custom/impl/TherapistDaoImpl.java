@@ -8,6 +8,7 @@ import lk.ijse.serenitymentalhealththerapycenter.entity.Therapist;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TherapistDaoImpl implements TherapistDao {
@@ -70,7 +71,20 @@ public class TherapistDaoImpl implements TherapistDao {
 
     @Override
     public List<Therapist> search(String text) {
-        return List.of();
+        List<Therapist> therapists= new ArrayList<>();
+        Session session = FactoryConfiguration.getInstance().getSession();
+        String hql;
+        if(text.startsWith("T_")){
+            String p_id = text.substring(2);
+            hql = "FROM Therapist WHERE id= " + p_id;
+            therapists = session.createQuery(hql, Therapist.class).list();
+        }
+        else {
+            hql = "FROM Therapist WHERE name LIKE :name";
+            therapists = session.createQuery(hql, Therapist.class).setParameter("name", text+"%").list();
+        }
+        session.close();
+        return therapists;
     }
 
     @Override

@@ -186,7 +186,17 @@ public class TherapistController {
 
     @FXML
     void handelSearchTherapist() {
+        String text = t_search_field.getText();
+        List<TherapistDTO> therapists = therapistBo.searchTherapists(text);
 
+        if(therapists.isEmpty()){
+            alert.getInfoAlert("Therapist Not Found!").show();
+            return;
+        }
+
+        ObservableList<TherapistDTO> obList = FXCollections.observableArrayList();
+        obList.addAll(therapists);
+        therapist_table.setItems(obList);
     }
 
     @FXML
