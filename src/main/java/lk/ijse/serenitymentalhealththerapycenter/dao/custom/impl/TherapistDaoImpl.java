@@ -92,4 +92,19 @@ public class TherapistDaoImpl implements TherapistDao {
         session.close();
         return -1;
     }
+
+    @Override
+    public String getNextID() {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        List<Therapist> therapistsQuery = session.createQuery("FROM Therapist ORDER BY id DESC", Therapist.class).list();
+        int lastId ;
+        if(therapistsQuery.isEmpty()){
+            lastId = 1;
+        }
+        else{
+            lastId = therapistsQuery.getFirst().getId()+1;
+        }
+        session.close();
+        return ("T_" + lastId);
+    }
 }

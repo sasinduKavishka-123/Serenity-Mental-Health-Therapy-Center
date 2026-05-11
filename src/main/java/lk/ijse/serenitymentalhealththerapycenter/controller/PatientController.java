@@ -212,8 +212,8 @@ public class PatientController {
     // load table data to the fields
     @FXML
     public void getPatientTableData(){
-        TableView.TableViewSelectionModel<PatientDTO> selectedCustomer = patient_table.getSelectionModel();
-        PatientDTO patient = selectedCustomer.getSelectedItem();
+        TableView.TableViewSelectionModel<PatientDTO> selectedPatient = patient_table.getSelectionModel();
+        PatientDTO patient = selectedPatient.getSelectedItem();
 
         if(patient != null){
             p_id_field.setText(patient.getId());

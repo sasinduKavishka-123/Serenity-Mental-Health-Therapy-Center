@@ -133,7 +133,13 @@ public class PatientDaoImpl implements PatientDao {
     public String getNextID() {
         Session session = FactoryConfiguration.getInstance().getSession();
         List<Patient> patientQuery = session.createQuery("FROM Patient ORDER BY id DESC", Patient.class).list();
-        int lastID =  (patientQuery.getFirst().getId() + 1);
+        int lastID ;
+        if(patientQuery.isEmpty()){
+            lastID = 1;
+        }
+        else{
+            lastID = patientQuery.getFirst().getId() + 1;
+        }
         session.close();
         return ("P_" + lastID);
     }

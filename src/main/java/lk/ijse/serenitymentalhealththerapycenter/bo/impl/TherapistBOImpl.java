@@ -34,4 +34,9 @@ public class TherapistBOImpl implements TherapistBo {
     public int checkDuplicateData(int id, String name, String contact, String email, String type) {
         return therapistDao.checkDuplicateData(id, name, contact, email, type);
     }
+
+    @Override
+    public String getNextID() {
+        return therapistDao.getNextID();
+    }
 }

@@ -51,6 +51,7 @@ public class TherapistController {
         col_t_email_address.setCellValueFactory(new PropertyValueFactory<>("email"));
 
         loadTherapistTable();
+        getNextPID();
 
         p_search_text.setVisible(false);
         t_btn_update.setDisable(true);
@@ -67,6 +68,12 @@ public class TherapistController {
             e.printStackTrace();
             alert.getErrorAlert("Something Went Wrong!").show();
         }
+    }
+
+    // Get next therapist id ---------------------------
+    void getNextPID(){
+        String nextId = therapistBo.getNextID();
+        t_id_field.setText(nextId);
     }
 
     @FXML
@@ -134,8 +141,19 @@ public class TherapistController {
     }
 
     @FXML
-    void getPatientTableData() {
+    void getTherapistTableData() {
+        TableView.TableViewSelectionModel<TherapistDTO> selectedTherapist = therapist_table.getSelectionModel();
+        TherapistDTO therapist = selectedTherapist.getSelectedItem();
 
+        if(therapist != null){
+            t_id_field.setText((therapist.getId()));
+            t_name_field.setText((therapist.getName()));
+            t_contact_field.setText(therapist.getContact());
+            t_email_field.setText(therapist.getEmail());
+            t_btn_save.setDisable(true);
+            t_btn_update.setDisable(false);
+            t_btn_delete.setDisable(false);
+        }
     }
 
     @FXML
@@ -149,6 +167,7 @@ public class TherapistController {
         t_btn_update.setDisable(true);
         t_btn_delete.setDisable(true);
         loadTherapistTable();
+        getNextPID();
     }
 
     @FXML
