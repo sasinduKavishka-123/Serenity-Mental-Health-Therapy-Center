@@ -62,17 +62,17 @@
                   <TextArea fx:id="p_address_field" layoutX="225.0" layoutY="306.0" prefHeight="80.0" prefWidth="500.0" style="-fx-border-color: #848484; -fx-border-radius: 3;" />
                   <ButtonBar layoutX="371.0" layoutY="402.0" prefHeight="40.0" prefWidth="146.0">
                     <buttons>
-                      <Button mnemonicParsing="false" onAction="#handelSavePatient" style="-fx-background-color: #00cc00;" text="Save">
+                      <Button fx:id="p_btn_save" mnemonicParsing="false" onAction="#handelSavePatient" style="-fx-background-color: #00cc00;" text="Save">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Button>
-                        <Button layoutX="221.0" layoutY="17.0" mnemonicParsing="false" onAction="#handelUpdatePatient" style="-fx-background-color: #ff8000;" text="Update">
+                        <Button fx:id="p_btn_update" layoutX="221.0" layoutY="17.0" mnemonicParsing="false" onAction="#handelUpdatePatient" style="-fx-background-color: #ff8000;" text="Update">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Button>
-                        <Button layoutX="221.0" layoutY="17.0" mnemonicParsing="false" onAction="#handelDeletePatient" style="-fx-background-color: #ff1a1a;" text="Delete">
+                        <Button fx:id="p_btn_delete" layoutX="221.0" layoutY="17.0" mnemonicParsing="false" onAction="#handelDeletePatient" style="-fx-background-color: #ff1a1a;" text="Delete">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>

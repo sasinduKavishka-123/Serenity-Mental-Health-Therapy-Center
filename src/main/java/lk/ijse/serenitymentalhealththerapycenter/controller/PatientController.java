@@ -42,7 +42,10 @@ public class PatientController {
     @FXML private TableColumn<PatientDTO, String> col_p_id;
     @FXML private TableColumn<PatientDTO, String> col_p_name;
     @FXML private TableColumn<PatientDTO, String> col_p_reg_date;
-
+    // buttons ---------------------------------
+    @FXML private Button p_btn_save;
+    @FXML private Button p_btn_update;
+    @FXML private Button p_btn_delete;
 
     private final String PATIENT_NAME_REGEX    = "^[A-Za-z\\s]{3,}$";
     private final String PATIENT_CONTACT_REGEX = "^[0-9]{10}$";
@@ -70,6 +73,8 @@ public class PatientController {
         getNextPID();
 
         p_search_text.setVisible(false);
+        p_btn_update.setDisable(true);
+        p_btn_delete.setDisable(true);
     }
 
     // load patient data to table ---------------------------
@@ -216,6 +221,9 @@ public class PatientController {
             p_contact_field.setText(patient.getContact());
             p_address_field.setText(patient.getAddress());
             p_gender_box.setValue(patient.getGender());
+            p_btn_delete.setDisable(false);
+            p_btn_update.setDisable(false);
+            p_btn_save.setDisable(true);
         }
     }
 
@@ -236,6 +244,9 @@ public class PatientController {
         p_gender_box.setValue("");
         p_gender_box.setPromptText("Select a gender");
         p_search_field.setText("");
+        p_btn_save.setDisable(false);
+        p_btn_update.setDisable(true);
+        p_btn_delete.setDisable(true);
         loadPatients();
         getNextPID();
     }

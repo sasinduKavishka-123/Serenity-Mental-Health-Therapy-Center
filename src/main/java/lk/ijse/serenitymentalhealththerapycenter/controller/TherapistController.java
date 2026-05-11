@@ -3,10 +3,7 @@ package lk.ijse.serenitymentalhealththerapycenter.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.serenitymentalhealththerapycenter.bo.BOFactory;
 import lk.ijse.serenitymentalhealththerapycenter.bo.TherapistBo;
@@ -32,6 +29,11 @@ public class TherapistController {
     @FXML private TextField t_email_field;
     @FXML private TextField t_search_field;
 
+    // buttons ---------------------------
+    @FXML private Button t_btn_save;
+    @FXML private Button t_btn_update;
+    @FXML private Button t_btn_delete;
+
     @FXML private Label p_search_text;
 
     private final Alerts alert = new Alerts("Therapist Management.");
@@ -51,6 +53,8 @@ public class TherapistController {
         loadTherapistTable();
 
         p_search_text.setVisible(false);
+        t_btn_update.setDisable(true);
+        t_btn_delete.setDisable(true);
     }
 
     void loadTherapistTable(){
@@ -141,6 +145,9 @@ public class TherapistController {
         t_contact_field.setText("");
         t_email_field.setText("");
         t_search_field.setText("");
+        t_btn_save.setDisable(false);
+        t_btn_update.setDisable(true);
+        t_btn_delete.setDisable(true);
         loadTherapistTable();
     }
 
