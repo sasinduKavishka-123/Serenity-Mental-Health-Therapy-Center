@@ -74,7 +74,7 @@ public class PatientDaoImpl implements PatientDao {
     public List<Patient> search(String text) {
         List<Patient> patients= new ArrayList<>();
         Session session = FactoryConfiguration.getInstance().getSession();
-        String hql = "";
+        String hql;
         if(text.startsWith("P_")){
             String p_id = text.substring(2);
             hql = "FROM Patient WHERE id= " + p_id;
@@ -84,6 +84,7 @@ public class PatientDaoImpl implements PatientDao {
             hql = "FROM Patient WHERE name LIKE :name";
             patients = session.createQuery(hql, Patient.class).setParameter("name", text+"%").list();
         }
+        session.close();
         return patients;
     }
 
@@ -103,9 +104,11 @@ public class PatientDaoImpl implements PatientDao {
         if(patientQuery.stream().findAny().isPresent()){
             if((patientQuery.size() == 1) && type.equals("u")){
                 if(!(patientQuery.getFirst().getId() == p_id)){
+                    session.close();
                     return 0;
                 }
             }else{
+                session.close();
                 return 0;
             }
         }
@@ -114,9 +117,11 @@ public class PatientDaoImpl implements PatientDao {
         if(patientQuery.stream().findAny().isPresent()){
             if((patientQuery.size() == 1) && type.equals("u")){
                 if(!(patientQuery.getFirst().getId() == p_id)){
+                    session.close();
                     return 1;
                 }
             }else{
+                session.close();
                 return 1;
             }
         }
@@ -129,6 +134,7 @@ public class PatientDaoImpl implements PatientDao {
         Session session = FactoryConfiguration.getInstance().getSession();
         List<Patient> patientQuery = session.createQuery("FROM Patient ORDER BY id DESC", Patient.class).list();
         int lastID =  (patientQuery.getFirst().getId() + 1);
+        session.close();
         return ("P_" + lastID);
     }
 }

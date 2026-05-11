@@ -26,6 +26,7 @@ import java.util.ResourceBundle;
 
 public class PatientController {
 
+    // input fields -------------------
     @FXML private TextField p_id_field;
     @FXML private TextField p_name_field;
     @FXML private TextField p_contact_field;
@@ -49,6 +50,7 @@ public class PatientController {
 
     private final Alerts alert = new Alerts("Patient Management.");
     private final PatientBO patientBO = (PatientBO) BOFactory.getInstance().getBO(BOFactory.BOTypes.PATIENT);
+
 
 
     public void initialize() {

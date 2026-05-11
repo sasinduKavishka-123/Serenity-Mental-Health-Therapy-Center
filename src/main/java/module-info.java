@@ -16,7 +16,7 @@ module lk.ijse.serenitymentalhealththerapycenter {
 
     // for lombok
     requires static lombok;
-
+    requires javafx.base;
 
 
     opens lk.ijse.serenitymentalhealththerapycenter.controller to javafx.fxml;

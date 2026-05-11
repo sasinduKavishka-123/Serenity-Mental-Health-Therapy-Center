@@ -1,53 +1,121 @@
 package lk.ijse.serenitymentalhealththerapycenter.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.serenitymentalhealththerapycenter.bo.BOFactory;
+import lk.ijse.serenitymentalhealththerapycenter.bo.TherapistBo;
+import lk.ijse.serenitymentalhealththerapycenter.dto.PatientDTO;
+import lk.ijse.serenitymentalhealththerapycenter.dto.TherapistDTO;
+import lk.ijse.serenitymentalhealththerapycenter.util.Alerts;
+
+import java.util.List;
 
 public class TherapistController {
 
-    @FXML
-    private TableColumn<?, ?> col_t_contact;
+    // therapist table --------------------------
+    @FXML private TableView<TherapistDTO> therapist_table;
+    @FXML private TableColumn<TherapistDTO, String> col_t_contact;
+    @FXML private TableColumn<TherapistDTO, String> col_t_email_address;
+    @FXML private TableColumn<TherapistDTO, String> col_t_id;
+    @FXML private TableColumn<TherapistDTO, String> col_t_name;
 
-    @FXML
-    private TableColumn<?, ?> col_t_email_address;
+    // input fields -------------------
+    @FXML private TextField t_id_field;
+    @FXML private TextField t_name_field;
+    @FXML private TextField t_contact_field;
+    @FXML private TextField t_email_field;
+    @FXML private TextField t_search_field;
 
-    @FXML
-    private TableColumn<?, ?> col_t_id;
+    @FXML private Label p_search_text;
 
-    @FXML
-    private TableColumn<?, ?> col_t_name;
+    private final Alerts alert = new Alerts("Therapist Management.");
+    private final TherapistBo therapistBo = (TherapistBo) BOFactory.getInstance().getBO(BOFactory.BOTypes.THERAPIST);
 
-    @FXML
-    private Label p_search_text;
+    private final String THERAPIST_NAME_REGEX    = "^[A-Za-z\\s]{3,}$";
+    private final String THERAPIST_CONTACT_REGEX = "^[0-9]{10}$";
+    private final String THERAPIST_EMAIL_REGEX = "^[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}$";
 
-    @FXML
-    private TextField t_contact_field;
+    public void initialize(){
+        // initialize therapist table
+        col_t_id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        col_t_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        col_t_contact.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        col_t_email_address.setCellValueFactory(new PropertyValueFactory<>("email"));
 
-    @FXML
-    private TextField t_email_field;
+        loadTherapistTable();
 
-    @FXML
-    private TextField t_id_field;
+        p_search_text.setVisible(false);
+    }
 
-    @FXML
-    private TextField t_name_field;
-
-    @FXML
-    private TextField t_search_field;
-
-    @FXML
-    private TableView<?> therapist_table;
-
-    @FXML
-    void clearFields() {
-
+    void loadTherapistTable(){
+        try{
+            List<TherapistDTO> therapists = therapistBo.getAllTherapists();
+            ObservableList<TherapistDTO> obList = FXCollections.observableArrayList();
+            obList.addAll(therapists);
+            therapist_table.setItems(obList);
+        }catch (Exception e){
+            e.printStackTrace();
+            alert.getErrorAlert("Something Went Wrong!").show();
+        }
     }
 
     @FXML
-    void getPatientTableData() {
+    void handelSaveTherapist() {
+        String name     = t_name_field.getText();
+        String contact  = t_contact_field.getText();
+        String email    = t_email_field.getText();
+
+        if(!name.matches(THERAPIST_NAME_REGEX)){
+            alert.getErrorAlert("Invalid Name!").show();
+        }
+        else if(!contact.matches(THERAPIST_CONTACT_REGEX)){
+            alert.getErrorAlert("Invalid Contact!").show();
+        }
+        else if(!email.matches(THERAPIST_EMAIL_REGEX)){
+            alert.getErrorAlert("Invalid Email!").show();
+        }
+        else{
+            // check if is there duplicate values
+            int duplicateVal = checkDataIsDuplicate(0, name, contact, email, "s");
+            if(duplicateVal == 0){
+                alert.getErrorAlert("Therapist name is already exist!").show();
+                return;
+            }
+            else if(duplicateVal == 1){
+                alert.getErrorAlert("Therapist contact is already exist!").show();
+                return;
+            } else if (duplicateVal == 2) {
+                alert.getErrorAlert("Therapist email is already exist!").show();
+                return;
+            }
+
+            // save therapist data
+            TherapistDTO therapist = new TherapistDTO("0", name, contact, email);
+            boolean isSaved = therapistBo.saveTherapist(therapist);
+            if(isSaved){
+                alert.getSuccessAlert("Therapist Saved Successfully!").show();
+                clearFields();
+            }else {
+                alert.getErrorAlert("Something Went Wrong!").show();
+            }
+        }
+
+    }
+
+    // check if is there duplicate values return 0=> name , 1=> contact , 2=> email , -1=> no duplicate
+    // type=> save->s update->u
+    private int checkDataIsDuplicate(int id, String name, String contact, String email, String type){
+        return therapistBo.checkDuplicateData(id, name, contact, email, type);
+    }
+
+    @FXML
+    void handelUpdateTherapist() {
 
     }
 
@@ -57,28 +125,33 @@ public class TherapistController {
     }
 
     @FXML
-    void handelSaveTherapist() {
-
-    }
-
-    @FXML
     void handelSearchTherapist() {
 
     }
 
     @FXML
-    void handelUpdateTherapist() {
+    void getPatientTableData() {
 
+    }
+
+    @FXML
+    void clearFields() {
+        t_id_field.setText("");
+        t_name_field.setText("");
+        t_contact_field.setText("");
+        t_email_field.setText("");
+        t_search_field.setText("");
+        loadTherapistTable();
     }
 
     @FXML
     void makeNotVisible() {
-
+        p_search_text.setVisible(false);
     }
 
     @FXML
     void makeVisible() {
-
+        p_search_text.setVisible(true);
     }
 
 }
