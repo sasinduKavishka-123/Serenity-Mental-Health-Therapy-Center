@@ -127,12 +127,61 @@ public class TherapistController {
 
     @FXML
     void handelUpdateTherapist() {
+        String id       = t_id_field.getText();
+        String name     = t_name_field.getText();
+        String contact  = t_contact_field.getText();
+        String email    = t_email_field.getText();
 
+        if(!name.matches(THERAPIST_NAME_REGEX)){
+            alert.getErrorAlert("Invalid Name!").show();
+        }
+        else if(!contact.matches(THERAPIST_CONTACT_REGEX)){
+            alert.getErrorAlert("Invalid Contact!").show();
+        }
+        else if(!email.matches(THERAPIST_EMAIL_REGEX)){
+            alert.getErrorAlert("Invalid Email!").show();
+        }
+        else {// check if is there duplicate values
+            int t_id = Integer.parseInt(id.substring(2));
+            int duplicateVal = checkDataIsDuplicate(t_id, name, contact, email, "u");
+            if (duplicateVal == 0) {
+                alert.getErrorAlert("Therapist name is already exist!").show();
+                return;
+            } else if (duplicateVal == 1) {
+                alert.getErrorAlert("Therapist contact is already exist!").show();
+                return;
+            } else if (duplicateVal == 2) {
+                alert.getErrorAlert("Therapist email is already exist!").show();
+                return;
+            }
+
+            TherapistDTO therapist = new TherapistDTO(t_id+"", name, contact, email);
+            boolean isUpdated = therapistBo.updateTherapist(therapist);
+            if(isUpdated){
+                alert.getSuccessAlert("Therapist Updated Successfully!").show();
+                clearFields();
+            }else {
+                alert.getErrorAlert("Something Went Wrong!").show();
+            }
+        }
     }
 
     @FXML
     void handelDeleteTherapist() {
+        String id = t_id_field.getText();
+        if(id.isEmpty()){
+            alert.getErrorAlert("Please Select a Therapist").show();
+            return;
+        }
 
+        int t_id = Integer.parseInt(id.substring(2));
+        boolean isDeleted = therapistBo.deleteTherapist(t_id);
+        if(isDeleted){
+            alert.getSuccessAlert("Therapist Deleted Successfully!").show();
+            clearFields();
+        }else {
+            alert.getErrorAlert("Something Went Wrong!").show();
+        }
     }
 
     @FXML

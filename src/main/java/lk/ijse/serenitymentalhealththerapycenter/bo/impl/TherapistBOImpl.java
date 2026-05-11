@@ -21,6 +21,17 @@ public class TherapistBOImpl implements TherapistBo {
     }
 
     @Override
+    public boolean updateTherapist(TherapistDTO t) {
+        Therapist therapist = new Therapist(Integer.parseInt(t.getId()), t.getName(), t.getContact(), t.getEmail());
+        return therapistDao.update(therapist);
+    }
+
+    @Override
+    public boolean deleteTherapist(int id) {
+        return therapistDao.delete(id);
+    }
+
+    @Override
     public List<TherapistDTO> getAllTherapists() {
         List<Therapist> therapistList = therapistDao.getAll();
         List<TherapistDTO> therapistDTOS = new ArrayList<>();

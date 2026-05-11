@@ -2,6 +2,8 @@ package lk.ijse.serenitymentalhealththerapycenter.dao.custom.impl;
 
 import lk.ijse.serenitymentalhealththerapycenter.config.FactoryConfiguration;
 import lk.ijse.serenitymentalhealththerapycenter.dao.custom.TherapistDao;
+import lk.ijse.serenitymentalhealththerapycenter.dto.TherapistDTO;
+import lk.ijse.serenitymentalhealththerapycenter.entity.Patient;
 import lk.ijse.serenitymentalhealththerapycenter.entity.Therapist;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -27,13 +29,43 @@ public class TherapistDaoImpl implements TherapistDao {
     }
 
     @Override
-    public boolean update(Therapist entity) {
-        return false;
+    public boolean update(Therapist therapist) {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        try{
+            Therapist oldTherapist = session.get(Therapist.class, therapist.getId());
+
+            oldTherapist.setName(therapist.getName());
+            oldTherapist.setContact(therapist.getContact());
+            oldTherapist.setEmail(therapist.getEmail());
+
+            transaction.commit();
+            return true;
+        } catch (Exception e) {
+            transaction.rollback();
+            e.printStackTrace();
+            return false;
+        }finally {
+            session.close();
+        }
     }
 
     @Override
     public boolean delete(int id) {
-        return false;
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        try{
+            Therapist therapist = session.get(Therapist.class, id);
+            session.delete(therapist);
+            transaction.commit();
+            return true;
+        } catch (Exception e) {
+            transaction.rollback();
+            e.printStackTrace();
+            return false;
+        }finally {
+            session.close();
+        }
     }
 
     @Override

@@ -18,7 +18,7 @@
          <content>
             <Pane prefHeight="673.0" prefWidth="935.0" style="-fx-background-color: #ffffff;">
                <children>
-                  <Label fx:id="p_search_text" layoutX="85.0" layoutY="361.0" prefHeight="28.0" prefWidth="169.0" text="Search Patient by ID or Name">
+                  <Label fx:id="p_search_text" layoutX="85.0" layoutY="361.0" prefHeight="28.0" prefWidth="169.0" text="Search Therapist by ID or Name">
                      <font>
                         <Font size="13.0" />
                      </font>

@@ -32,10 +32,8 @@ public class PatientDaoImpl implements PatientDao {
     @Override
     public boolean update(Patient patient) {
         Session session = FactoryConfiguration.getInstance().getSession();
-
+        Transaction transaction = session.beginTransaction();
         try{
-            Transaction transaction = session.beginTransaction();
-
             Patient oldPatient = session.get(Patient.class, patient.getId());
 
             oldPatient.setName(patient.getName());
@@ -48,6 +46,8 @@ public class PatientDaoImpl implements PatientDao {
             transaction.commit();
             return true;
         }catch(Exception e){
+            transaction.rollback();
+            e.printStackTrace();
             return false;
         }finally{
             session.close();
@@ -57,13 +57,14 @@ public class PatientDaoImpl implements PatientDao {
     @Override
     public boolean delete(int id) {
         Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
         try{
-            Transaction transaction = session.beginTransaction();
             Patient patient = session.get(Patient.class, id);
             session.delete(patient);
             transaction.commit();
             return true;
         } catch (Exception e) {
+            transaction.rollback();
             return false;
         }finally{
             session.close();
