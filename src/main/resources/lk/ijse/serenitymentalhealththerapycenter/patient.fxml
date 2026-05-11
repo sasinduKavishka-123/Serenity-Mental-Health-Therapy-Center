@@ -84,7 +84,7 @@
                         </Button>
                     </buttons>
                   </ButtonBar>
-                  <TableView fx:id="patient_table" layoutX="93.0" layoutY="509.0" onMouseClicked="#getPatientTableData" prefHeight="226.0" prefWidth="750.0">
+                  <TableView fx:id="patient_table" layoutX="93.0" layoutY="509.0" onMouseClicked="#getPatientTableData" prefHeight="201.0" prefWidth="750.0">
                     <columns>
                       <TableColumn fx:id="col_p_id" prefWidth="64.0" text="ID" />
                       <TableColumn fx:id="col_p_name" prefWidth="162.4000244140625" text="Name" />

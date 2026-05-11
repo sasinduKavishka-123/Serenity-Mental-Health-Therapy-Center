@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="640.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.serenitymentalhealththerapycenter.controller.ProgramController">
+   <children>
+      <ScrollPane layoutX="5.0" layoutY="5.0" prefHeight="640.0" prefWidth="950.0" style="-fx-background-color: #ffffff;">
+         <content>
+            <Pane prefHeight="722.0" prefWidth="935.0" style="-fx-background-color: #ffffff;">
+               <children>
+                  <Label fx:id="p_search_text" layoutX="82.0" layoutY="401.0" prefHeight="28.0" prefWidth="180.0" text="Search Program by ID or Name">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Text layoutX="235.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Program Management">
+                     <font>
+                        <Font name="Candara Bold" size="48.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="pr_id_field" editable="false" layoutX="97.0" layoutY="162.0" prefHeight="30.0" prefWidth="150.0" style="-fx-border-color: #848484; -fx-border-radius: 3;" />
+                  <Text layoutX="97.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Program ID">
+                     <font>
+                        <Font name="Arial" size="16.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="pr_name_field" layoutX="97.0" layoutY="225.0" prefHeight="30.0" prefWidth="350.0" style="-fx-border-color: #848484; -fx-border-radius: 3;" />
+                  <Text layoutX="97.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Program Name">
+                     <font>
+                        <Font name="Arial" size="16.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="pr_duration_field" layoutX="97.0" layoutY="288.0" prefHeight="30.0" prefWidth="150.0" style="-fx-border-color: #848484; -fx-border-radius: 3;" />
+                  <Text layoutX="97.0" layoutY="283.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Duration">
+                     <font>
+                        <Font name="Arial" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="298.0" layoutY="283.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fee">
+                     <font>
+                        <Font name="Arial" size="16.0" />
+                     </font>
+                  </Text>
+                  <ButtonBar layoutX="96.0" layoutY="340.0" prefHeight="40.0" prefWidth="146.0">
+                     <buttons>
+                        <Button mnemonicParsing="false" onAction="#handelSaveProgram" style="-fx-background-color: #00cc00;" text="Save">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="221.0" layoutY="17.0" mnemonicParsing="false" onAction="#handelUpdateProgram" style="-fx-background-color: #ff8000;" text="Update">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="221.0" layoutY="17.0" mnemonicParsing="false" onAction="#handelDeleteProgram" style="-fx-background-color: #ff1a1a;" text="Delete">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="221.0" layoutY="17.0" mnemonicParsing="false" onAction="#clearFields" prefWidth="134.0" style="-fx-background-color: #b800e6;" text="Reset">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                     </buttons>
+                  </ButtonBar>
+                  <TableView fx:id="program_table" layoutX="96.0" layoutY="476.0" onMouseClicked="#getPatientTableData" prefHeight="226.0" prefWidth="750.0">
+                     <columns>
+                        <TableColumn fx:id="col_pr_id" prefWidth="64.0" text="ID" />
+                        <TableColumn fx:id="col_pr_name" prefWidth="348.79998779296875" text="Name" />
+                        <TableColumn fx:id="col_pr_gender" prefWidth="128.0" text="Duration" />
+                        <TableColumn fx:id="col_pr_contact" prefWidth="192.79998779296875" text="Fee" />
+                     </columns>
+                  </TableView>
+                  <TextField fx:id="pr_search_field" layoutX="96.0" layoutY="429.0" onMouseEntered="#makeVisible" onMouseExited="#makeNotVisible" prefHeight="30.0" prefWidth="155.0" style="-fx-border-color: #848484; -fx-border-radius: 3;" />
+                  <Button layoutX="263.0" layoutY="429.0" mnemonicParsing="false" onAction="#handelSearchProgram" prefHeight="20.0" prefWidth="75.0" style="-fx-background-color: #008aff;" text="Search">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+                  <TextField fx:id="pr_fee_field" layoutX="298.0" layoutY="288.0" prefHeight="30.0" prefWidth="150.0" style="-fx-border-color: #848484; -fx-border-radius: 3;" />
+                  <Line endX="35.0" endY="43.40000915527344" layoutX="449.0" layoutY="106.0" startX="35.0" startY="275.0000305175781" strokeWidth="2.0" />
+                  <Line endX="35.0" layoutX="212.0" layoutY="-30.0" rotate="90.0" startX="35.0" startY="300.0" strokeWidth="2.0" />
+                  <Text layoutX="98.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Program Date Form">
+                     <font>
+                        <Font name="Arial Bold" size="20.0" />
+                     </font>
+                  </Text>
+                  <Line endX="35.0" layoutX="640.0" layoutY="-30.0" rotate="90.0" startX="35.0" startY="300.0" strokeWidth="2.0" />
+                  <Text layoutX="525.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Link Programs">
+                     <font>
+                        <Font name="Arial Bold" size="20.0" />
+                     </font>
+                  </Text>
+                  <ComboBox fx:id="pr_t_name_combo_box" layoutX="525.0" layoutY="162.0" prefHeight="30.0" prefWidth="350.0" promptText="Select a Terapist" style="-fx-background-color: none; -fx-border-color: #848484; -fx-border-radius: 3;" />
+                  <Text layoutX="525.0" layoutY="156.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Terapist Name">
+                     <font>
+                        <Font name="Arial" size="16.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="pr_t_id_field" editable="false" layoutX="525.0" layoutY="225.0" prefHeight="30.0" prefWidth="150.0" style="-fx-border-color: #848484; -fx-border-radius: 3;" />
+                  <Text layoutX="525.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Terapist ID">
+                     <font>
+                        <Font name="Arial" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="726.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contact">
+                     <font>
+                        <Font name="Arial" size="16.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="pr_t_contact_field" editable="false" layoutX="726.0" layoutY="225.0" prefHeight="30.0" prefWidth="150.0" style="-fx-border-color: #848484; -fx-border-radius: 3;" />
+                  <ButtonBar layoutX="694.0" layoutY="340.0" prefHeight="40.0" prefWidth="146.0">
+                     <buttons>
+                        <Button mnemonicParsing="false" onAction="#handelLinkProgram" style="-fx-background-color: #008aff;" text="Link">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="221.0" layoutY="17.0" mnemonicParsing="false" onAction="#handelUnlinkProgram" style="-fx-background-color: #ff1a1a;" text="Remove">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                     </buttons>
+                  </ButtonBar>
+                  <TextField fx:id="pr_t_email_field" editable="false" layoutX="525.0" layoutY="288.0" prefHeight="30.0" prefWidth="350.0" style="-fx-border-color: #848484; -fx-border-radius: 3;" />
+                  <Text layoutX="525.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email">
+                     <font>
+                        <Font name="Arial" size="16.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>
