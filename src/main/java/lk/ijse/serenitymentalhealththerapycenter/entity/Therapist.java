@@ -40,8 +40,10 @@ public class Therapist {
     // add and remove elements using hashset methods ------------------
     public void addProgram(Program program) {
         this.programs.add(program);
+        program.getTherapists().add(this);
     }
     public void removeProgram(Program program) {
         this.programs.remove(program);
+        program.getTherapists().add(this);
     }
 }

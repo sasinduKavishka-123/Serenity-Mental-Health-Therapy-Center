@@ -8,4 +8,5 @@ public interface TherapistDao extends CrudDao<Therapist> {
     int checkDuplicateData(int id, String name, String contact, String email, String type);
     String getNextID();
     boolean addProgram(Therapist t, Program p);
+    boolean removeProgram(int t_id, int p_id);
 }

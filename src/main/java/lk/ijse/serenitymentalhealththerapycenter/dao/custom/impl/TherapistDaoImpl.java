@@ -158,8 +158,36 @@ public class TherapistDaoImpl implements TherapistDao {
         Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
         try{
-            t.addProgram(p);
-            session.update(t);
+            Therapist therapist = session.get(Therapist.class, t.getId());
+            Program program = session.get(Program.class, p.getId());
+
+            therapist.addProgram(program);
+            program.getTherapists().add(therapist);
+            session.merge(therapist);
+            transaction.commit();
+            return true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            transaction.rollback();
+            return false;
+        }
+        finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public boolean removeProgram(int t_id, int p_id) {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        try{
+            Therapist therapist = session.get(Therapist.class, t_id);
+            Program program = session.get(Program.class, p_id);
+
+            therapist.removeProgram(program);
+            program.getTherapists().remove(therapist);
+            session.merge(therapist);
             transaction.commit();
             return true;
         }

@@ -13,5 +13,6 @@ public interface TherapistBo extends SuperBO{
     List<TherapistDTO> searchTherapists(String text);
     int checkDuplicateData(int id, String name, String contact, String email, String type);
     String getNextID();
-    boolean addProgram(TherapistDTO t, ProgramDTO p);
+    boolean linkProgram(TherapistDTO t, ProgramDTO p);
+    boolean unlinkProgram(TherapistDTO t, ProgramDTO p);
 }

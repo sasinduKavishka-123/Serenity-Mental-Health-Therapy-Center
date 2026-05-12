@@ -86,7 +86,7 @@ public class TherapistBOImpl implements TherapistBo {
     }
 
     @Override
-    public boolean addProgram(TherapistDTO t, ProgramDTO p) {
+    public boolean linkProgram(TherapistDTO t, ProgramDTO p) {
         Therapist therapist = new Therapist();
         therapist.setId(Integer.parseInt(t.getId().substring(2)));
         therapist.setName(t.getName());
@@ -100,5 +100,12 @@ public class TherapistBOImpl implements TherapistBo {
         program.setFee(p.getFee());
 
         return therapistDao.addProgram(therapist, program);
+    }
+
+    @Override
+    public boolean unlinkProgram(TherapistDTO t, ProgramDTO p) {
+        int therapistID = Integer.parseInt(t.getId().substring(2));
+        int programID = Integer.parseInt(p.getId().substring(3));
+        return therapistDao.removeProgram(therapistID, programID);
     }
 }

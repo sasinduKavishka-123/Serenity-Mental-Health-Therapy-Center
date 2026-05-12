@@ -276,7 +276,7 @@ public class ProgramController {
 
     @FXML
     void handelLinkProgram() {
-        boolean isLinked =  therapistBo.addProgram(selectedTherapist, selectedProgram);
+        boolean isLinked =  therapistBo.linkProgram(selectedTherapist, selectedProgram);
         if(isLinked){
             alert.getSuccessAlert("Program Linked Successfully!").show();
             clearFields();
@@ -288,7 +288,14 @@ public class ProgramController {
 
     @FXML
     void handelUnlinkProgram() {
-
+        boolean isLinked =  therapistBo.unlinkProgram(selectedTherapist, selectedProgram);
+        if(isLinked){
+            alert.getSuccessAlert("Program UnLinked Successfully!").show();
+            clearFields();
+        }
+        else{
+            alert.getErrorAlert("Something Went Wrong!").show();
+        }
     }
 
     @FXML
