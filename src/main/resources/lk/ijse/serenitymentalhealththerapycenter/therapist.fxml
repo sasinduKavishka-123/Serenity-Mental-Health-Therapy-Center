@@ -90,11 +90,6 @@
                      </font>
                   </Button>
                   <TextField fx:id="t_email_field" layoutX="463.0" layoutY="239.0" prefHeight="30.0" prefWidth="262.0" style="-fx-border-color: #848484; -fx-border-radius: 3;" />
-                  <Button layoutX="345.0" layoutY="389.0" mnemonicParsing="false" onAction="#handelSearchTherapist" prefHeight="30.0" prefWidth="111.0" style="-fx-background-color: #ff8000;" text="View Details">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
                </children>
             </Pane>
          </content>

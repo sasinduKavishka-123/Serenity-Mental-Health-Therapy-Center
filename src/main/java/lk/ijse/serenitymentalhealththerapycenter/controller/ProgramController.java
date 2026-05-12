@@ -10,6 +10,7 @@ import lk.ijse.serenitymentalhealththerapycenter.bo.BOFactory;
 import lk.ijse.serenitymentalhealththerapycenter.bo.ProgramBO;
 import lk.ijse.serenitymentalhealththerapycenter.bo.TherapistBo;
 import lk.ijse.serenitymentalhealththerapycenter.dto.ProgramDTO;
+import lk.ijse.serenitymentalhealththerapycenter.dto.ProgramTherapistDTO;
 import lk.ijse.serenitymentalhealththerapycenter.dto.TherapistDTO;
 import lk.ijse.serenitymentalhealththerapycenter.entity.Program;
 import lk.ijse.serenitymentalhealththerapycenter.util.Alerts;
@@ -25,6 +26,13 @@ public class ProgramController {
     @FXML private TableColumn<ProgramDTO, String> col_pr_name;
     @FXML private TableColumn<ProgramDTO, String> col_pr_duration;
     @FXML private TableColumn<ProgramDTO, String> col_pr_fee;
+
+    // program therapist table data ------------------
+    @FXML private TableView<ProgramTherapistDTO> program_therapist_table;
+    @FXML private TableColumn<ProgramTherapistDTO, String> col_pr_id_2;
+    @FXML private TableColumn<ProgramTherapistDTO, String> col_pr_name_2;
+    @FXML private TableColumn<ProgramTherapistDTO, String> col_t_id;
+    @FXML private TableColumn<ProgramTherapistDTO, String> col_t_name;
 
     // input fields Program------------------
     @FXML private TextField pr_id_field;
@@ -51,8 +59,8 @@ public class ProgramController {
     private final TherapistBo therapistBo = (TherapistBo) BOFactory.getInstance().getBO(BOFactory.BOTypes.THERAPIST);
 
     // variables --------------------------
-    TherapistDTO selectedTherapist = null;
-    ProgramDTO selectedProgram     = null;
+    TherapistDTO selectedTherapist ;
+    ProgramDTO selectedProgram ;
 
     public void initialize(){
         // initialize therapist combo box -------------
@@ -97,7 +105,15 @@ public class ProgramController {
         col_pr_duration.setCellValueFactory(new PropertyValueFactory<>("duration"));
         col_pr_fee.setCellValueFactory(new PropertyValueFactory<>("fee"));
 
+        // initialize program therapist table
+        col_pr_id_2.setCellValueFactory(new PropertyValueFactory<>("prID"));
+        col_pr_name_2.setCellValueFactory(new PropertyValueFactory<>("prName"));
+        col_t_id.setCellValueFactory(new PropertyValueFactory<>("tID"));
+        col_t_name.setCellValueFactory(new PropertyValueFactory<>("tName"));
+
         loadProgramTable();
+        loadProgramTherapistTable();
+        program_therapist_table.setVisible(false);
         getNextProgramID();
     }
 
@@ -124,15 +140,82 @@ public class ProgramController {
     @FXML
     void fillTherapistData(){
         String text = pr_t_name_combo_box.getValue();
-        if(text != null){
-            int end = text.indexOf("-") -1;
+        if(text == null){ return; }  // return if text is null -----------
+
+        int num = text.indexOf("-");
+        if(num < 0){
+            if(text.contains("T_")){
+                System.out.println("ssaasdasdasd");
+                selectedTherapist = new TherapistDTO();
+                selectedTherapist = therapistBo.searchTherapists(text).getFirst();
+            }
+        }
+        else{
+            int end = num -1;
             selectedTherapist = therapistBo.searchTherapists(text.substring(0, end)).getFirst();
-            pr_t_id_field.setText(selectedTherapist.getId());
-            pr_t_contact_field.setText(selectedTherapist.getContact());
-            pr_t_email_field.setText(selectedTherapist.getEmail());
+        }
+        pr_t_id_field.setText(selectedTherapist.getId());
+        pr_t_contact_field.setText(selectedTherapist.getContact());
+        pr_t_email_field.setText(selectedTherapist.getEmail());
+    }
+
+    // change table view ------------------------------------------
+    @FXML
+    void viewProgramDetailTable(){
+        program_table.setVisible(false);
+        program_therapist_table.setVisible(true);
+    }
+
+    // load program therapist table ----------------------------------
+    void loadProgramTherapistTable(){
+        List<ProgramTherapistDTO> programDetails = programBO.getAllProgramsWithTherapists();
+        ObservableList<ProgramTherapistDTO> obList = FXCollections.observableArrayList();
+        obList.addAll(programDetails);
+        program_therapist_table.setItems(obList);
+    }
+
+    @FXML
+    void getPatientTableData() {
+        TableView.TableViewSelectionModel<ProgramDTO> selectedPr = program_table.getSelectionModel();
+        ProgramDTO program = selectedPr.getSelectedItem();
+
+        if(program != null){
+            selectedProgram = program;
+            pr_id_field.setText(program.getId());
+            pr_name_field.setText(program.getName());
+            pr_duration_field.setText(program.getDuration());
+            pr_fee_field.setText(program.getFee()+"");
+
+            // make buttons disable false and true
+            pr_btn_save.setDisable(true);
+            pr_btn_update.setDisable(false);
+            pr_btn_delete.setDisable(false);
+            pr_t_name_combo_box.setDisable(false);
+        }
+
+    }
+
+    @FXML
+    void getProgramTherapistTableData(){
+        TableView.TableViewSelectionModel<ProgramTherapistDTO> selectedPT = program_therapist_table.getSelectionModel();
+        ProgramTherapistDTO pt = selectedPT.getSelectedItem();
+
+        if(pt != null){
+            if(selectedProgram == null) {selectedProgram = new ProgramDTO();}
+            selectedProgram.setId(pt.getPrID());
+
+            ProgramDTO programDTO = programBO.getDataById(pt.getPrID());
+            pr_id_field.setText(programDTO.getId());
+            pr_name_field.setText(programDTO.getName());
+            pr_duration_field.setText(programDTO.getDuration());
+            pr_fee_field.setText(programDTO.getFee()+"");
+
+            pr_t_name_combo_box.setDisable(false);
+            pr_t_name_combo_box.setValue(pt.getTID() + " - " + pt.getTName());
         }
     }
 
+    // clear all ------------------------------------------
     @FXML
     void clearFields() {
         pr_name_field.setText("");
@@ -148,7 +231,10 @@ public class ProgramController {
         pr_btn_delete.setDisable(true);
         pr_btn_save.setDisable(false);
         pr_t_name_combo_box.setDisable(true);
+        program_table.setVisible(true);
+        program_therapist_table.setVisible(false);
         loadProgramTable();
+        loadProgramTherapistTable();
         getNextProgramID();
     }
 
@@ -235,27 +321,6 @@ public class ProgramController {
     }
 
     @FXML
-    void getPatientTableData() {
-        TableView.TableViewSelectionModel<ProgramDTO> selectedPr = program_table.getSelectionModel();
-        ProgramDTO program = selectedPr.getSelectedItem();
-
-        if(program != null){
-            selectedProgram = program;
-            pr_id_field.setText(program.getId());
-            pr_name_field.setText(program.getName());
-            pr_duration_field.setText(program.getDuration());
-            pr_fee_field.setText(program.getFee()+"");
-
-            // make buttons disable false and true
-            pr_btn_save.setDisable(true);
-            pr_btn_update.setDisable(false);
-            pr_btn_delete.setDisable(false);
-            pr_t_name_combo_box.setDisable(false);
-        }
-
-    }
-
-    @FXML
     void handelSearchProgram() {
         String text = pr_search_field.getText().trim();
 
@@ -307,5 +372,6 @@ public class ProgramController {
     void makeVisible() {
         p_search_text.setVisible(true);
     }
+
 
 }

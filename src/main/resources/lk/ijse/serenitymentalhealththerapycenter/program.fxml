@@ -143,6 +143,19 @@
                         <Font name="Arial" size="16.0" />
                      </font>
                   </Text>
+                  <Button layoutX="343.0" layoutY="429.0" mnemonicParsing="false" onAction="#viewProgramDetailTable" prefHeight="30.0" prefWidth="111.0" style="-fx-background-color: #ff8000;" text="View Details">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+                  <TableView fx:id="program_therapist_table" layoutX="96.0" layoutY="477.0" onMouseClicked="#getProgramTherapistTableData" prefHeight="226.0" prefWidth="750.0">
+                     <columns>
+                        <TableColumn fx:id="col_pr_id_2" prefWidth="88.79998779296875" text="Program ID" />
+                        <TableColumn fx:id="col_pr_name_2" prefWidth="271.2000732421875" text="Program" />
+                        <TableColumn fx:id="col_t_id" prefWidth="94.4000244140625" text="Therapist ID" />
+                        <TableColumn fx:id="col_t_name" prefWidth="276.7999267578125" text="Therapist" />
+                     </columns>
+                  </TableView>
                </children>
             </Pane>
          </content>

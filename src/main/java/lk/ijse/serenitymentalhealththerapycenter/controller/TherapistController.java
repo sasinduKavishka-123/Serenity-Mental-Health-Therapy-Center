@@ -7,7 +7,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.serenitymentalhealththerapycenter.bo.BOFactory;
 import lk.ijse.serenitymentalhealththerapycenter.bo.TherapistBo;
-import lk.ijse.serenitymentalhealththerapycenter.dto.PatientDTO;
 import lk.ijse.serenitymentalhealththerapycenter.dto.TherapistDTO;
 import lk.ijse.serenitymentalhealththerapycenter.util.Alerts;
 

@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 
 public class ProgramDaoImpl implements ProgramDao {
@@ -107,5 +108,23 @@ public class ProgramDaoImpl implements ProgramDao {
         }
         session.close();
         return ("PR_" + lastId);
+    }
+
+    @Override
+    public List<Program> getAllProgramsWithTherapists() {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        List<Program> programs = new ArrayList<>();
+
+        programs = session.createQuery("SELECT DISTINCT p FROM Program p LEFT JOIN FETCH p.therapists", Program.class).list();
+        session.close();
+        return programs;
+    }
+
+    @Override
+    public Program getDataByID(int id) {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Program p = session.get(Program.class, id);
+        session.close();
+        return p;
     }
 }
