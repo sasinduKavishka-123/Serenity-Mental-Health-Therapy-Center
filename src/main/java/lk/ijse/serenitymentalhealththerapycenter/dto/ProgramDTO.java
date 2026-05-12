@@ -3,6 +3,7 @@ package lk.ijse.serenitymentalhealththerapycenter.dto;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
 // lombok ////////////////
 @Getter
@@ -16,4 +17,5 @@ public class ProgramDTO {
     private String name;
     private String duration;
     private BigDecimal fee;
+    private Set<TherapistDTO> therapists;
 }

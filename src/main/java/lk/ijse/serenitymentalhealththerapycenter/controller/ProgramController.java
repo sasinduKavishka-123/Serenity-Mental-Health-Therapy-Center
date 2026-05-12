@@ -45,10 +45,14 @@ public class ProgramController {
     @FXML Button pr_btn_update;
     @FXML Button pr_btn_delete;
 
+    // final variables --------------------------
     private final Alerts alert = new Alerts("Program Management.");
     private final ProgramBO programBO = (ProgramBO) BOFactory.getInstance().getBO(BOFactory.BOTypes.PROGRAM);
     private final TherapistBo therapistBo = (TherapistBo) BOFactory.getInstance().getBO(BOFactory.BOTypes.THERAPIST);
 
+    // variables --------------------------
+    TherapistDTO selectedTherapist = null;
+    ProgramDTO selectedProgram     = null;
 
     public void initialize(){
         // initialize therapist combo box -------------
@@ -120,14 +124,13 @@ public class ProgramController {
     @FXML
     void fillTherapistData(){
         String text = pr_t_name_combo_box.getValue();
-        if(text == null){
-            return;
+        if(text != null){
+            int end = text.indexOf("-") -1;
+            selectedTherapist = therapistBo.searchTherapists(text.substring(0, end)).getFirst();
+            pr_t_id_field.setText(selectedTherapist.getId());
+            pr_t_contact_field.setText(selectedTherapist.getContact());
+            pr_t_email_field.setText(selectedTherapist.getEmail());
         }
-        int end = text.indexOf("-") -1;
-        List<TherapistDTO> selectedTherapist = therapistBo.searchTherapists(text.substring(0, end));
-        pr_t_id_field.setText(selectedTherapist.getFirst().getId());
-        pr_t_contact_field.setText(selectedTherapist.getFirst().getContact());
-        pr_t_email_field.setText(selectedTherapist.getFirst().getEmail());
     }
 
     @FXML
@@ -166,14 +169,18 @@ public class ProgramController {
         }
         else{
             BigDecimal pr_fee = BigDecimal.valueOf(Integer.parseInt(fee));
-            ProgramDTO programDTO = new ProgramDTO("0", name, duration, pr_fee);
+            ProgramDTO programDTO = new ProgramDTO();
+            programDTO.setName(name);
+            programDTO.setDuration(duration);
+            programDTO.setFee(pr_fee);
+
             boolean isSaved = programBO.saveProgram(programDTO);
 
             if(isSaved){
                 alert.getSuccessAlert("Program Saved Successfully!").show();
                 clearFields();
             }else{
-                alert.getSuccessAlert("Something Went Wrong!").show();
+                alert.getErrorAlert("Something Went Wrong!").show();
             }
         }
     }
@@ -196,14 +203,19 @@ public class ProgramController {
         }
         else{
             BigDecimal pr_fee = BigDecimal.valueOf(Double.parseDouble(fee));
-            ProgramDTO programDTO = new ProgramDTO(id.substring(3), name, duration, pr_fee);
+            ProgramDTO programDTO = new ProgramDTO();
+            programDTO.setId(id.substring(3));
+            programDTO.setName(name);
+            programDTO.setDuration(duration);
+            programDTO.setFee(pr_fee);
+
             boolean isUpdated = programBO.updateProgram(programDTO);
 
             if(isUpdated){
                 alert.getSuccessAlert("Program Updated Successfully!").show();
                 clearFields();
             }else{
-                alert.getSuccessAlert("Something Went Wrong!").show();
+                alert.getErrorAlert("Something Went Wrong!").show();
             }
         }
     }
@@ -218,16 +230,17 @@ public class ProgramController {
             alert.getSuccessAlert("Program Deleted Successfully!").show();
             clearFields();
         }else{
-            alert.getSuccessAlert("Something Went Wrong!").show();
+            alert.getErrorAlert("Something Went Wrong!").show();
         }
     }
 
     @FXML
     void getPatientTableData() {
-        TableView.TableViewSelectionModel<ProgramDTO> selectedProgram = program_table.getSelectionModel();
-        ProgramDTO program = selectedProgram.getSelectedItem();
+        TableView.TableViewSelectionModel<ProgramDTO> selectedPr = program_table.getSelectionModel();
+        ProgramDTO program = selectedPr.getSelectedItem();
 
         if(program != null){
+            selectedProgram = program;
             pr_id_field.setText(program.getId());
             pr_name_field.setText(program.getName());
             pr_duration_field.setText(program.getDuration());
@@ -263,7 +276,14 @@ public class ProgramController {
 
     @FXML
     void handelLinkProgram() {
-
+        boolean isLinked =  therapistBo.addProgram(selectedTherapist, selectedProgram);
+        if(isLinked){
+            alert.getSuccessAlert("Program Linked Successfully!").show();
+            clearFields();
+        }
+        else{
+            alert.getErrorAlert("Something Went Wrong!").show();
+        }
     }
 
     @FXML

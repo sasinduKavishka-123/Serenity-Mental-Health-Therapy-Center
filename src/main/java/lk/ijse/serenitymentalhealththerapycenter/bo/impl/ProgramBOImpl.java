@@ -15,13 +15,20 @@ public class ProgramBOImpl implements ProgramBO {
 
     @Override
     public boolean saveProgram(ProgramDTO p) {
-        Program program = new Program(0, p.getName(), p.getDuration(), p.getFee(), null);
+        Program program = new Program();
+        program.setName(p.getName());
+        program.setDuration(p.getDuration());
+        program.setFee(p.getFee());
         return programDao.save(program);
     }
 
     @Override
     public boolean updateProgram(ProgramDTO p) {
-        Program program = new Program(Integer.parseInt(p.getId()), p.getName(), p.getDuration(), p.getFee(), null);
+        Program program = new Program();
+        program.setId(Integer.parseInt(p.getId()));
+        program.setName(p.getName());
+        program.setDuration(p.getDuration());
+        program.setFee(p.getFee());
         return programDao.update(program);
     }
 
@@ -35,7 +42,13 @@ public class ProgramBOImpl implements ProgramBO {
         List<Program> programs = programDao.search(text);
         List<ProgramDTO> programDTOS = new ArrayList<>();
         for(Program p : programs){
-            programDTOS.add(new ProgramDTO("PR_"+p.getId(), p.getName(), p.getDuration(), p.getFee()));
+            ProgramDTO pDto = new ProgramDTO();
+            pDto.setId("PR_"+p.getId());
+            pDto.setName(p.getName());
+            pDto.setDuration(p.getDuration());
+            pDto.setFee(p.getFee());
+
+            programDTOS.add(pDto);
         }
         return programDTOS;
     }
@@ -45,7 +58,13 @@ public class ProgramBOImpl implements ProgramBO {
         List<Program> programs = programDao.getAll();
         List<ProgramDTO> programDTOS = new ArrayList<>();
         for(Program p : programs){
-            programDTOS.add(new ProgramDTO("PR_"+p.getId(), p.getName(), p.getDuration(), p.getFee()));
+            ProgramDTO pDto = new ProgramDTO();
+            pDto.setId("PR_"+p.getId());
+            pDto.setName(p.getName());
+            pDto.setDuration(p.getDuration());
+            pDto.setFee(p.getFee());
+
+            programDTOS.add(pDto);
         }
         return programDTOS;
     }
@@ -54,4 +73,5 @@ public class ProgramBOImpl implements ProgramBO {
     public String getNextID() {
         return programDao.getNextID();
     }
+
 }

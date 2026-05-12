@@ -11,6 +11,7 @@ import lk.ijse.serenitymentalhealththerapycenter.dto.PatientDTO;
 import lk.ijse.serenitymentalhealththerapycenter.dto.TherapistDTO;
 import lk.ijse.serenitymentalhealththerapycenter.util.Alerts;
 
+import java.util.HashSet;
 import java.util.List;
 
 public class TherapistController {
@@ -107,7 +108,11 @@ public class TherapistController {
             }
 
             // save therapist data
-            TherapistDTO therapist = new TherapistDTO("0", name, contact, email);
+            TherapistDTO therapist = new TherapistDTO();
+            therapist.setName(name);
+            therapist.setContact(contact);
+            therapist.setEmail(email);
+
             boolean isSaved = therapistBo.saveTherapist(therapist);
             if(isSaved){
                 alert.getSuccessAlert("Therapist Saved Successfully!").show();
@@ -155,7 +160,12 @@ public class TherapistController {
                 return;
             }
 
-            TherapistDTO therapist = new TherapistDTO(t_id+"", name, contact, email);
+            TherapistDTO therapist = new TherapistDTO();
+            therapist.setId(t_id+"");
+            therapist.setName(name);
+            therapist.setContact(contact);
+            therapist.setEmail(email);
+
             boolean isUpdated = therapistBo.updateTherapist(therapist);
             if(isUpdated){
                 alert.getSuccessAlert("Therapist Updated Successfully!").show();

@@ -2,6 +2,7 @@ package lk.ijse.serenitymentalhealththerapycenter.dao.custom.impl;
 
 import lk.ijse.serenitymentalhealththerapycenter.config.FactoryConfiguration;
 import lk.ijse.serenitymentalhealththerapycenter.dao.custom.TherapistDao;
+import lk.ijse.serenitymentalhealththerapycenter.entity.Program;
 import lk.ijse.serenitymentalhealththerapycenter.entity.Therapist;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -150,5 +151,25 @@ public class TherapistDaoImpl implements TherapistDao {
         }
         session.close();
         return ("T_" + lastId);
+    }
+
+    @Override
+    public boolean addProgram(Therapist t, Program p) {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        try{
+            t.addProgram(p);
+            session.update(t);
+            transaction.commit();
+            return true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            transaction.rollback();
+            return false;
+        }
+        finally {
+            session.close();
+        }
     }
 }
