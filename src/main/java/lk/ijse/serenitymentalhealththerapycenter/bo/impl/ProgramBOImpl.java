@@ -6,6 +6,7 @@ import lk.ijse.serenitymentalhealththerapycenter.dao.DAOFactory;
 import lk.ijse.serenitymentalhealththerapycenter.dao.custom.ProgramDao;
 import lk.ijse.serenitymentalhealththerapycenter.dto.ProgramDTO;
 import lk.ijse.serenitymentalhealththerapycenter.dto.ProgramTherapistDTO;
+import lk.ijse.serenitymentalhealththerapycenter.dto.TherapistDTO;
 import lk.ijse.serenitymentalhealththerapycenter.entity.Program;
 import lk.ijse.serenitymentalhealththerapycenter.entity.Therapist;
 
@@ -95,6 +96,19 @@ public class ProgramBOImpl implements ProgramBO {
             }
         }
         return ptList;
+    }
+
+    @Override
+    public List<TherapistDTO> getProgramWithTherapists(int id) {
+        List<Therapist> therapists = programDao.getProgramWithTherapists(id);
+        List<TherapistDTO> therapistDTOS = new ArrayList<>();
+        for(Therapist t : therapists){
+            TherapistDTO tDto = new TherapistDTO();
+            tDto.setId("T_" + t.getId());
+            tDto.setName(t.getName());
+            therapistDTOS.add(tDto);
+        }
+        return therapistDTOS;
     }
 
     @Override

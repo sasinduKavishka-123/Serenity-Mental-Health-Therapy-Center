@@ -30,7 +30,8 @@ public class Registration {
     @Column(name = "register_date")
     private LocalDate registerDate;
 
-    @OneToMany(mappedBy = "registration", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Sessions> sessions = new HashSet<>();
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "session_id", nullable = false)
+    private Sessions session;
 
 }

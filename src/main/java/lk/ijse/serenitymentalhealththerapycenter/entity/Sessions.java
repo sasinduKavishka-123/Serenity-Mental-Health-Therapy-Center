@@ -19,16 +19,15 @@ public class Sessions {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "registration_id", nullable = false)
+    @OneToOne(mappedBy = "session",  cascade = CascadeType.ALL)
     private Registration registration;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "therapist_id", nullable = false)
+    @JoinColumn(name = "therapist_id")
     private Therapist therapist;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "program_id", nullable = false)
+    @JoinColumn(name = "program_id")
     private Program program;
 
     @Column(name = "session_day")

@@ -121,6 +121,15 @@ public class ProgramDaoImpl implements ProgramDao {
     }
 
     @Override
+    public List<Therapist> getProgramWithTherapists(int id) {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Program program = session.get(Program.class, id);
+        List<Therapist> therapists = new ArrayList<>(program.getTherapists());
+        session.close();
+        return therapists;
+    }
+
+    @Override
     public Program getDataByID(int id) {
         Session session = FactoryConfiguration.getInstance().getSession();
         Program p = session.get(Program.class, id);

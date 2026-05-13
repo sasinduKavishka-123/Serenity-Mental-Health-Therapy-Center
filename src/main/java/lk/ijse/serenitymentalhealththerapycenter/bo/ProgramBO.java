@@ -15,5 +15,6 @@ public interface ProgramBO extends SuperBO{
     List<ProgramDTO> getAllPrograms();
     String getNextID();
     List<ProgramTherapistDTO> getAllProgramsWithTherapists();
+    List<TherapistDTO> getProgramWithTherapists(int id);
     ProgramDTO getDataById(String id);
 }

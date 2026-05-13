@@ -3,6 +3,7 @@ package lk.ijse.serenitymentalhealththerapycenter.dao;
 import lk.ijse.serenitymentalhealththerapycenter.dao.custom.TherapistDao;
 import lk.ijse.serenitymentalhealththerapycenter.dao.custom.impl.PatientDaoImpl;
 import lk.ijse.serenitymentalhealththerapycenter.dao.custom.impl.ProgramDaoImpl;
+import lk.ijse.serenitymentalhealththerapycenter.dao.custom.impl.SessionDaoImpl;
 import lk.ijse.serenitymentalhealththerapycenter.dao.custom.impl.TherapistDaoImpl;
 
 public class DAOFactory {
@@ -21,7 +22,8 @@ public class DAOFactory {
     public enum DAOTypes{
         PATIENT,
         THERAPIST,
-        PROGRAM
+        PROGRAM,
+        SESSION
     }
 
     public SuperDao getDao(DAOTypes daoTypes){
@@ -29,6 +31,7 @@ public class DAOFactory {
             case PATIENT    : return new PatientDaoImpl();
             case THERAPIST  : return new TherapistDaoImpl();
             case PROGRAM    : return new ProgramDaoImpl();
+            case SESSION    : return new SessionDaoImpl();
             default         : return null;
         }
     }

@@ -42,7 +42,8 @@ public class DashboardController {
 
     @FXML
     private void registrationNav() throws IOException{
-
+        Parent patientFXML = Launcher.loadFXML("registration");
+        homePane.getChildren().setAll(patientFXML);
     }
 
     @FXML
