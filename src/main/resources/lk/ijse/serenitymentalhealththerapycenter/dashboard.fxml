@@ -35,7 +35,7 @@
                   </DropShadow>
                </effect>
             </Button>
-            <Button contentDisplay="CENTER" layoutX="50.0" layoutY="315.0" mnemonicParsing="false" onAction="#programNav" prefWidth="150.0" style="-fx-background-color: #0799a6;" text="Programms">
+            <Button contentDisplay="CENTER" layoutX="50.0" layoutY="365.0" mnemonicParsing="false" onAction="#programNav" prefWidth="150.0" style="-fx-background-color: #0799a6;" text="Programs">
                <font>
                   <Font name="Calibri Bold" size="22.0" />
                </font>
@@ -47,7 +47,7 @@
                   </DropShadow>
                </effect>
             </Button>
-            <Button contentDisplay="CENTER" layoutX="50.0" layoutY="365.0" mnemonicParsing="false" prefWidth="150.0" style="-fx-background-color: #0799a6;" text="Sessions">
+            <Button contentDisplay="CENTER" layoutX="50.0" layoutY="415.0" mnemonicParsing="false" onAction="#sessionNav" prefWidth="150.0" style="-fx-background-color: #0799a6;" text="Sessions">
                <font>
                   <Font name="Calibri Bold" size="22.0" />
                </font>
@@ -59,7 +59,7 @@
                   </DropShadow>
                </effect>
             </Button>
-            <Button contentDisplay="CENTER" layoutX="50.0" layoutY="415.0" mnemonicParsing="false" onAction="#therapistNav" prefWidth="150.0" style="-fx-background-color: #0799a6;" text="Therapists">
+            <Button contentDisplay="CENTER" layoutX="50.0" layoutY="315.0" mnemonicParsing="false" onAction="#therapistNav" prefWidth="150.0" style="-fx-background-color: #0799a6;" text="Therapists">
                <font>
                   <Font name="Calibri Bold" size="22.0" />
                </font>

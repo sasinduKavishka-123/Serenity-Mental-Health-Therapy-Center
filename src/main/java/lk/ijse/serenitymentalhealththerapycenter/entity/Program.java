@@ -23,13 +23,17 @@ public class Program {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  int id;
 
-    @Column(name="pro_name")
+    @Column(name="name")
     private String name;
-    @Column(name="pro_duration")
+    @Column(name="duration")
     private String duration;
-    @Column(precision = 10, scale = 2 , name="pro_fee")
+    @Column(name="fee", precision = 10, scale = 2 )
     private BigDecimal fee;
 
     @ManyToMany(mappedBy = "programs")
     private Set<Therapist> therapists = new HashSet<>();
+
+    @OneToMany(mappedBy = "program", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Sessions> sessions = new HashSet<>();
+
 }

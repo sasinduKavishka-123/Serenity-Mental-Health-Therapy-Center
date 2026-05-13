@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="640.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.serenitymentalhealththerapycenter.controller.SessionController">
+   <children>
+      <ScrollPane layoutX="20.0" layoutY="20.0" prefHeight="640.0" prefWidth="950.0" style="-fx-background-color: #ffffff;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <content>
+            <Pane prefHeight="673.0" prefWidth="935.0" style="-fx-background-color: #ffffff;">
+               <children>
+                  <Text layoutX="255.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Session Management">
+                     <font>
+                        <Font name="Candara Bold" size="48.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>

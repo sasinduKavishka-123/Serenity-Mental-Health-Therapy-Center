@@ -77,11 +77,11 @@
                         </Button>
                      </buttons>
                   </ButtonBar>
-                  <TableView fx:id="program_table" layoutX="96.0" layoutY="476.0" onMouseClicked="#getPatientTableData" prefHeight="226.0" prefWidth="750.0">
+                  <TableView fx:id="program_table" layoutX="96.0" layoutY="476.0" onMouseClicked="#getProgramTableData" prefHeight="226.0" prefWidth="750.0">
                      <columns>
                         <TableColumn fx:id="col_pr_id" prefWidth="64.0" text="ID" />
                         <TableColumn fx:id="col_pr_name" prefWidth="348.79998779296875" text="Name" />
-                        <TableColumn fx:id="col_pr_duration" prefWidth="128.0" text="Duration" />
+                        <TableColumn fx:id="col_pr_duration" prefWidth="128.0" text="Duration (weeks)" />
                         <TableColumn fx:id="col_pr_fee" prefWidth="192.79998779296875" text="Fee" />
                      </columns>
                   </TableView>
@@ -125,12 +125,12 @@
                   <TextField fx:id="pr_t_contact_field" editable="false" layoutX="726.0" layoutY="225.0" prefHeight="30.0" prefWidth="150.0" style="-fx-border-color: #848484; -fx-border-radius: 3;" />
                   <ButtonBar layoutX="694.0" layoutY="340.0" prefHeight="40.0" prefWidth="146.0">
                      <buttons>
-                        <Button mnemonicParsing="false" onAction="#handelLinkProgram" style="-fx-background-color: #008aff;" text="Link">
+                        <Button fx:id="pr_btn_link" mnemonicParsing="false" onAction="#handelLinkProgram" style="-fx-background-color: #008aff;" text="Link">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Button>
-                        <Button layoutX="221.0" layoutY="17.0" mnemonicParsing="false" onAction="#handelUnlinkProgram" style="-fx-background-color: #ff1a1a;" text="Remove">
+                        <Button fx:id="pr_btn_unlink" layoutX="221.0" layoutY="17.0" mnemonicParsing="false" onAction="#handelUnlinkProgram" style="-fx-background-color: #ff1a1a;" text="Remove">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>

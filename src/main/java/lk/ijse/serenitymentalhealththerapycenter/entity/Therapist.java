@@ -21,11 +21,11 @@ public class Therapist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="t_name")
+    @Column(name="name")
     private String name;
-    @Column(name="t_contact")
+    @Column(name="contact")
     private String contact;
-    @Column(name="t_email")
+    @Column(name="email")
     private String email;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -35,6 +35,9 @@ public class Therapist {
             inverseJoinColumns = @JoinColumn(name = "program_id")
     )
     private Set<Program> programs = new HashSet<>();
+
+    @OneToMany(mappedBy = "therapist", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Sessions> sessions = new HashSet<>();
 
 
     // add and remove elements using hashset methods ------------------

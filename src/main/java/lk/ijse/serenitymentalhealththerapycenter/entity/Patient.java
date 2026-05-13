@@ -4,6 +4,9 @@ package lk.ijse.serenitymentalhealththerapycenter.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 // hibernate ////////////////
 @Entity
 @Table(name= "patient")
@@ -19,10 +22,18 @@ public class Patient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="p_name")
+    @Column(name="name", nullable = false)
     private String name;
+
+    @Column(name="gender")
     private String gender;
+
+    @Column(name="contact", nullable = false)
     private String contact;
+
+    @Column(name="address")
     private String address;
-    private String registeredDay;
+
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Registration> registrations = new HashSet<>();
 }

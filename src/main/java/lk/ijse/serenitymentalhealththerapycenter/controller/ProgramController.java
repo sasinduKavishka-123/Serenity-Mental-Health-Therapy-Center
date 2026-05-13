@@ -52,6 +52,8 @@ public class ProgramController {
     @FXML Button pr_btn_save;
     @FXML Button pr_btn_update;
     @FXML Button pr_btn_delete;
+    @FXML Button pr_btn_link;
+    @FXML Button pr_btn_unlink;
 
     // final variables --------------------------
     private final Alerts alert = new Alerts("Program Management.");
@@ -97,6 +99,8 @@ public class ProgramController {
         p_search_text.setVisible(false);
         pr_btn_update.setDisable(true);
         pr_btn_delete.setDisable(true);
+        pr_btn_link.setDisable(true);
+        pr_btn_unlink.setDisable(true);
         pr_t_name_combo_box.setDisable(true);
 
         // initialize program table
@@ -175,7 +179,7 @@ public class ProgramController {
     }
 
     @FXML
-    void getPatientTableData() {
+    void getProgramTableData() {
         TableView.TableViewSelectionModel<ProgramDTO> selectedPr = program_table.getSelectionModel();
         ProgramDTO program = selectedPr.getSelectedItem();
 
@@ -191,6 +195,7 @@ public class ProgramController {
             pr_btn_update.setDisable(false);
             pr_btn_delete.setDisable(false);
             pr_t_name_combo_box.setDisable(false);
+            pr_btn_link.setDisable(false);
         }
 
     }
@@ -212,6 +217,9 @@ public class ProgramController {
 
             pr_t_name_combo_box.setDisable(false);
             pr_t_name_combo_box.setValue(pt.getTID() + " - " + pt.getTName());
+            pr_btn_save.setDisable(true);
+            pr_btn_link.setDisable(false);
+            pr_btn_unlink.setDisable(false);
         }
     }
 
@@ -233,6 +241,8 @@ public class ProgramController {
         pr_t_name_combo_box.setDisable(true);
         program_table.setVisible(true);
         program_therapist_table.setVisible(false);
+        pr_btn_link.setDisable(true);
+        pr_btn_unlink.setDisable(true);
         loadProgramTable();
         loadProgramTherapistTable();
         getNextProgramID();

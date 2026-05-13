@@ -33,4 +33,10 @@ public class DashboardController {
         Parent patientFXML = Launcher.loadFXML("therapist");
         homePane.getChildren().setAll(patientFXML);
     }
+
+    @FXML
+    private void sessionNav() throws IOException{
+        Parent patientFXML = Launcher.loadFXML("session");
+        homePane.getChildren().setAll(patientFXML);
+    }
 }
