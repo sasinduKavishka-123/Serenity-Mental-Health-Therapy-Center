@@ -78,9 +78,9 @@ public class TherapistController {
 
     @FXML
     void handelSaveTherapist() {
-        String name     = t_name_field.getText().trim();
-        String contact  = t_contact_field.getText().trim();
-        String email    = t_email_field.getText().trim();
+        String name     = t_name_field.getText();
+        String contact  = t_contact_field.getText();
+        String email    = t_email_field.getText();
 
         if(!name.matches(THERAPIST_NAME_REGEX)){
             alert.getErrorAlert("Invalid Name!").show();
@@ -108,9 +108,9 @@ public class TherapistController {
 
             // save therapist data
             TherapistDTO therapist = new TherapistDTO();
-            therapist.setName(name);
+            therapist.setName(name.trim());
             therapist.setContact(contact);
-            therapist.setEmail(email);
+            therapist.setEmail(email.trim());
 
             boolean isSaved = therapistBo.saveTherapist(therapist);
             if(isSaved){
@@ -131,10 +131,10 @@ public class TherapistController {
 
     @FXML
     void handelUpdateTherapist() {
-        String id       = t_id_field.getText().trim();
-        String name     = t_name_field.getText().trim();
-        String contact  = t_contact_field.getText().trim();
-        String email    = t_email_field.getText().trim();
+        String id       = t_id_field.getText();
+        String name     = t_name_field.getText();
+        String contact  = t_contact_field.getText();
+        String email    = t_email_field.getText();
 
         if(!name.matches(THERAPIST_NAME_REGEX)){
             alert.getErrorAlert("Invalid Name!").show();
@@ -161,9 +161,9 @@ public class TherapistController {
 
             TherapistDTO therapist = new TherapistDTO();
             therapist.setId(t_id+"");
-            therapist.setName(name);
+            therapist.setName(name.trim());
             therapist.setContact(contact);
-            therapist.setEmail(email);
+            therapist.setEmail(email.trim());
 
             boolean isUpdated = therapistBo.updateTherapist(therapist);
             if(isUpdated){

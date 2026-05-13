@@ -149,7 +149,6 @@ public class ProgramController {
         int num = text.indexOf("-");
         if(num < 0){
             if(text.contains("T_")){
-                System.out.println("ssaasdasdasd");
                 selectedTherapist = new TherapistDTO();
                 selectedTherapist = therapistBo.searchTherapists(text).getFirst();
             }
@@ -250,9 +249,9 @@ public class ProgramController {
 
     @FXML
     void handelSaveProgram() {
-        String name     = pr_name_field.getText().trim();
-        String duration = pr_duration_field.getText().trim();
-        String fee      = pr_fee_field.getText().trim();
+        String name     = pr_name_field.getText();
+        String duration = pr_duration_field.getText();
+        String fee      = pr_fee_field.getText();
 
         if(name.isEmpty()){
             alert.getErrorAlert("Invalid Name").show();
@@ -266,7 +265,7 @@ public class ProgramController {
         else{
             BigDecimal pr_fee = BigDecimal.valueOf(Integer.parseInt(fee));
             ProgramDTO programDTO = new ProgramDTO();
-            programDTO.setName(name);
+            programDTO.setName(name.trim());
             programDTO.setDuration(duration);
             programDTO.setFee(pr_fee);
 
@@ -283,10 +282,10 @@ public class ProgramController {
 
     @FXML
     void handelUpdateProgram() {
-        String id       = pr_id_field.getText().trim();
-        String name     = pr_name_field.getText().trim();
-        String duration = pr_duration_field.getText().trim();
-        String fee      = pr_fee_field.getText().trim();
+        String id       = pr_id_field.getText();
+        String name     = pr_name_field.getText();
+        String duration = pr_duration_field.getText();
+        String fee      = pr_fee_field.getText();
 
         if(name.isEmpty()){
             alert.getErrorAlert("Invalid Name").show();
@@ -301,7 +300,7 @@ public class ProgramController {
             BigDecimal pr_fee = BigDecimal.valueOf(Double.parseDouble(fee));
             ProgramDTO programDTO = new ProgramDTO();
             programDTO.setId(id.substring(3));
-            programDTO.setName(name);
+            programDTO.setName(name.trim());
             programDTO.setDuration(duration);
             programDTO.setFee(pr_fee);
 

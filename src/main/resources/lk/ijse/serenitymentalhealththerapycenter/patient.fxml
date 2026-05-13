@@ -87,11 +87,10 @@
                   <TableView fx:id="patient_table" layoutX="93.0" layoutY="509.0" onMouseClicked="#getPatientTableData" prefHeight="201.0" prefWidth="750.0">
                     <columns>
                       <TableColumn fx:id="col_p_id" prefWidth="64.0" text="ID" />
-                      <TableColumn fx:id="col_p_name" prefWidth="162.4000244140625" text="Name" />
-                        <TableColumn fx:id="col_p_gender" prefWidth="66.4000244140625" text="Gender" />
-                        <TableColumn fx:id="col_p_contact" prefWidth="95.99993896484375" text="Contact" />
-                        <TableColumn fx:id="col_p_reg_date" prefWidth="126.39996337890625" text="Registered Date" />
-                        <TableColumn fx:id="col_p_address" prefWidth="217.59991455078125" text="Address" />
+                      <TableColumn fx:id="col_p_name" prefWidth="198.40008544921875" text="Name" />
+                        <TableColumn fx:id="col_p_gender" prefWidth="76.7999267578125" text="Gender" />
+                        <TableColumn fx:id="col_p_contact" prefWidth="141.60003662109375" text="Contact" />
+                        <TableColumn fx:id="col_p_address" prefWidth="256.7999267578125" text="Address" />
                     </columns>
                   </TableView>
                   <TextField fx:id="p_search_field" layoutX="93.0" layoutY="462.0" onMouseEntered="#makeVisible" onMouseExited="#makeNotVisible" prefHeight="30.0" prefWidth="155.0" style="-fx-border-color: #848484; -fx-border-radius: 3;" />

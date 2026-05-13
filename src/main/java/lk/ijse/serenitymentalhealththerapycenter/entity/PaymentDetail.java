@@ -19,7 +19,7 @@ import java.time.LocalDate;
 public class PaymentDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "payment_id", nullable = false)
@@ -30,5 +30,4 @@ public class PaymentDetail {
 
     @Column(name = "pay_date")
     private LocalDate payDate;
-
 }

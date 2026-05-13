@@ -2,6 +2,7 @@ package lk.ijse.serenitymentalhealththerapycenter.dto;
 
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 // lombok ////////////////
@@ -11,11 +12,9 @@ import java.util.Set;
 @AllArgsConstructor
 @ToString
 @Builder
-public class PatientDTO {
+public class RegistrationDTO {
     private String id;
-    private String name;
-    private String gender;
-    private String contact;
-    private String address;
-    private Set<RegistrationDTO> registrations;
+    private PatientDTO patient;
+    private LocalDate registerDate;
+    private Set<SessionDTO> sessions;
 }

@@ -15,13 +15,24 @@ public class PatientBOImpl implements PatientBO {
 
     @Override
     public boolean savePatient(PatientDTO p){
-        Patient patient = new Patient(0, p.getName(), p.getGender(), p.getContact(), p.getAddress(), p.getRegisteredDay());
+        Patient patient = new Patient();
+        patient.setName(p.getName());
+        patient.setGender(p.getGender());
+        patient.setContact(p.getContact());
+        patient.setAddress(p.getAddress());
+
         return patientDao.save(patient);
     }
 
     @Override
     public boolean updatePatient(PatientDTO p) {
-        Patient patient = new Patient(Integer.parseInt(p.getId()), p.getName(), p.getGender(), p.getContact(), p.getAddress(), p.getRegisteredDay());
+        Patient patient = new Patient();
+        patient.setId(Integer.parseInt(p.getId()));
+        patient.setName(p.getName());
+        patient.setGender(p.getGender());
+        patient.setContact(p.getContact());
+        patient.setAddress(p.getAddress());
+
         return patientDao.update(patient);
     }
 
@@ -34,8 +45,16 @@ public class PatientBOImpl implements PatientBO {
     public List<PatientDTO> searchPatient(String text) {
         List<Patient> pList = patientDao.search(text);
         List<PatientDTO> patientDTOS = new ArrayList<>();
+
         for(Patient p : pList){
-            patientDTOS.add(new PatientDTO("P_" + p.getId(), p.getName(), p.getGender(), p.getContact(), p.getAddress(), p.getRegisteredDay()));
+            PatientDTO pDTO = new PatientDTO();
+            pDTO.setId("P_" + p.getId());
+            pDTO.setName(p.getName());
+            pDTO.setGender(p.getGender());
+            pDTO.setContact(p.getContact());
+            pDTO.setAddress(p.getAddress());
+
+            patientDTOS.add(pDTO);
         }
         return patientDTOS;
     }
@@ -45,7 +64,14 @@ public class PatientBOImpl implements PatientBO {
         List<Patient> pList = patientDao.getAll();
         List<PatientDTO> patientDTOS = new ArrayList<>();
         for(Patient p : pList){
-            patientDTOS.add(new PatientDTO("P_" + p.getId(), p.getName(), p.getGender(), p.getContact(), p.getAddress(), p.getRegisteredDay()));
+            PatientDTO pDTO = new PatientDTO();
+            pDTO.setId("P_" + p.getId());
+            pDTO.setName(p.getName());
+            pDTO.setGender(p.getGender());
+            pDTO.setContact(p.getContact());
+            pDTO.setAddress(p.getAddress());
+
+            patientDTOS.add(pDTO);
         }
         return patientDTOS;
     }
@@ -59,6 +85,5 @@ public class PatientBOImpl implements PatientBO {
     public String getNextID() {
         return patientDao.getNextID();
     }
-
 
 }

@@ -21,7 +21,7 @@ public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "session_id", nullable = false)

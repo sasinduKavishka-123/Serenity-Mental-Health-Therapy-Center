@@ -10,7 +10,7 @@ import lk.ijse.serenitymentalhealththerapycenter.bo.PatientBO;
 import lk.ijse.serenitymentalhealththerapycenter.dto.PatientDTO;
 import lk.ijse.serenitymentalhealththerapycenter.util.Alerts;
 
-import java.time.LocalDate;
+
 import java.util.List;
 
 public class PatientController {
@@ -30,7 +30,6 @@ public class PatientController {
     @FXML private TableColumn<PatientDTO, String> col_p_gender;
     @FXML private TableColumn<PatientDTO, String> col_p_id;
     @FXML private TableColumn<PatientDTO, String> col_p_name;
-    @FXML private TableColumn<PatientDTO, String> col_p_reg_date;
     // buttons ---------------------------------
     @FXML private Button p_btn_save;
     @FXML private Button p_btn_update;
@@ -55,7 +54,6 @@ public class PatientController {
         col_p_name.setCellValueFactory(new PropertyValueFactory<>("name"));
         col_p_contact.setCellValueFactory(new PropertyValueFactory<>("contact"));
         col_p_gender.setCellValueFactory(new PropertyValueFactory<>("gender"));
-        col_p_reg_date.setCellValueFactory(new PropertyValueFactory<>("registeredDay"));
         col_p_address.setCellValueFactory(new PropertyValueFactory<>("address"));
 
         loadPatients();
@@ -85,11 +83,10 @@ public class PatientController {
     @FXML
     private void handelSavePatient(){
 
-        String name     = p_name_field.getText().trim();
-        String contact  = p_contact_field.getText().trim();
-        String address  = p_address_field.getText().trim();
-        String gender   = p_gender_box.getValue().trim();
-        String date     = String.valueOf(LocalDate.now());
+        String name     = p_name_field.getText();
+        String contact  = p_contact_field.getText();
+        String address  = p_address_field.getText();
+        String gender   = p_gender_box.getValue();
 
         // data validation
         if(!name.matches(PATIENT_NAME_REGEX)){
@@ -98,7 +95,7 @@ public class PatientController {
             alert.getErrorAlert("Invalid Contact Number!").show();
         }else if(!address.matches(PATIENT_ADDRESS_REGEX)){
             alert.getErrorAlert("Invalid Address!").show();
-        }else if(gender == null){
+        }else if(gender.isEmpty()){
             alert.getErrorAlert("Select a Gender!").show();
         }
         else{
@@ -114,7 +111,12 @@ public class PatientController {
             }
 
             // save patient data
-            PatientDTO patient = new PatientDTO("0", name, gender, contact, address, date);
+            PatientDTO patient = new PatientDTO();
+            patient.setName(name.trim());
+            patient.setGender(gender);
+            patient.setContact(contact);
+            patient.setAddress(address.trim());
+
             boolean isSaved = patientBO.savePatient(patient);
             if(isSaved){
                 alert.getSuccessAlert("Patient Saved Successfully!").show();
@@ -135,7 +137,6 @@ public class PatientController {
         String contact  = p_contact_field.getText().trim();
         String address  = p_address_field.getText().trim();
         String gender   = p_gender_box.getValue().trim();
-        String date     = String.valueOf(LocalDate.now());
 
         // data validation
         if(!name.matches(PATIENT_NAME_REGEX)){
@@ -144,7 +145,7 @@ public class PatientController {
             alert.getErrorAlert("Invalid Contact Number!").show();
         }else if(!address.matches(PATIENT_ADDRESS_REGEX)){
             alert.getErrorAlert("Invalid Address!").show();
-        }else if(gender == null){
+        }else if(gender.isEmpty()){
             alert.getErrorAlert("Select a Gender!").show();
         }
         else{
@@ -161,7 +162,13 @@ public class PatientController {
             }
 
             // update patient data
-            PatientDTO patient = new PatientDTO(p_id+"", name, gender, contact, address, date);
+            PatientDTO patient = new PatientDTO();
+            patient.setId(p_id+"");
+            patient.setName(name.trim());
+            patient.setGender(gender);
+            patient.setContact(contact);
+            patient.setAddress(address.trim());
+
             boolean isUpdated = patientBO.updatePatient(patient);
             if(isUpdated){
                 alert.getSuccessAlert("Patient Updated Successfully!").show();
